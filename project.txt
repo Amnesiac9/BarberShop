@@ -1,0 +1,20 @@
+Let's get you more experience with React. We will build a website for a barber shop.
+1. Users should be able to browse a set of available hair cuts
+2. Users should be able to see the barbers schedule
+3. Users should be able to schedule a hair cut
+
+I want you to look into and select a UI library (or roll your own).
+* Ant Design
+* Glue UI
+* MUI
+* TailwindCSS (I don't think their React library is free though)
+
+I want you to look into Styled Components (CSS-in-JS)
+I want you to look into ViteJS for templating your project
+
+I want your site to be responsive to mobile and desktop viewport sizes.
+
+What is out of scope:
+* Setting up an API (we can get away with a hardcoded API or mock fetch functions)
+* Persisting data (bonus points if you use local storage)
+* Deployment pipelines, linting tools, and any other nice to haves. We just need to be able to start a local server
