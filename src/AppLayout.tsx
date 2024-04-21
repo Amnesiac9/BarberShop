@@ -45,7 +45,7 @@ function AppLayout(props: { setThemeConfig: React.Dispatch<React.SetStateAction<
                         <ColorPicker showText value={colorPrimary} onChangeComplete={(color) => updateThemeColor(color)} />
                     </div>
                 </Header>
-                <Content style={{ padding: '0 48px', borderRadius: '25' }}>
+                <Content style={{ padding: '0 48px' }}>
                     <div
                         style={{
                             padding: 24,
