@@ -1,5 +1,5 @@
-import React from 'react';
-import { Layout, Menu, theme, ColorPicker } from "antd";
+
+import { Layout, Menu, theme, ColorPicker, Typography } from "antd";
 import DarkModeSwitch from './components/DarkModeSwitch';
 // import { Calendar } from "antd";
 // import { DatePicker } from 'antd';
@@ -8,6 +8,8 @@ import DarkModeSwitch from './components/DarkModeSwitch';
 
 
 const { Header, Content, Footer } = Layout
+
+const { Title } = Typography
 
 // const { getDesignToken } = theme;
 // const globalToken = getDesignToken();
@@ -31,18 +33,29 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
 
     return (
         <>
+            <Header style={{ alignContent: 'center' }}>
+
+                <Title className='font-jersey-25-regular' style={{ margin: 0 }}>Lucky Cuts Barbershop</Title>
+
+            </Header>
+
+
             <Layout>
-                <Header style={{ position: 'sticky', top: 0, width: '100%', display: 'flex' }}>
-                    <div className='logo'>LogoHere</div>
-                    <Menu mode='horizontal' items={items} defaultSelectedKeys={['2']} style={{ flex: 1, minWidth: 0 }}></Menu>
-                    <div className='end'>
+                <Header style={{ position: 'sticky', top: 0, display: 'flex' }}>
+                    <div className='logoArea'>
+                        <img src='/barber.png' width='45px' height='auto' />
+                    </div>
+                    <Menu mode='horizontal' items={items} defaultSelectedKeys={['1']} style={{ flex: 1, minWidth: 150, width: '100%', justifyContent: 'center' }}>
+                    </Menu>
+                    <div className='settingsArea'>
                         <DarkModeSwitch checked={props.darkMode} onChange={toggleDarkMode} />
-                        <ColorPicker showText value={colorPrimary} onChangeComplete={(color) => props.savePrimaryColor(color.toHexString())} />
+                        <ColorPicker size='small' value={colorPrimary} onChangeComplete={(color) => props.savePrimaryColor(color.toHexString())} />
                     </div>
                 </Header>
                 <Content style={{ padding: '0 48px' }}>
                     <div
                         style={{
+                            marginTop: 8,
                             padding: 24,
                             minHeight: '85vh',
                             background: colorBgContainer,

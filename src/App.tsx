@@ -50,11 +50,14 @@ function App() {
         algorithm: darkMode ? darkAlgorithm : defaultAlgorithm,
         token: {
             colorPrimary: primaryColor,
-            borderRadius: 2,
+            borderRadius: 4,
+            fontSize: 18
         },
         components: {
-            Menu: { algorithm: darkAlgorithm, colorBgContainer: colors[2], horizontalItemBorderRadius: 8, itemBorderRadius: 8, },
-            Layout: { algorithm: darkAlgorithm, headerBg: colors[2], },
+            Menu: { colorBgContainer: colors[2], horizontalItemBorderRadius: 8, itemBorderRadius: 8, },
+            Layout: { headerBg: colors[2], },
+            ColorPicker: { algorithm: true, borderRadius: 10, },
+            Typography: { algorithm: true }
         }
     }
 
