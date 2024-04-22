@@ -20,7 +20,7 @@ const initialDarkMode = () => {
     return darkMode === 'true'
 }
 
-
+const transparencyHexCode = '99' // Not 99%
 
 
 function App() {
@@ -39,11 +39,17 @@ function App() {
     }
 
     // Generate theme based on primary color
-
-    const colors = generate(primaryColor, {
-        theme: darkMode ? 'dark' : 'default',
-        backgroundColor: darkMode ? '#000000' : '#ffffff'
-    })
+    // Append the transparancy code to them
+    const colors = (() => {
+        const generated = generate(primaryColor, {
+            theme: darkMode ? 'dark' : 'default',
+            backgroundColor: darkMode ? '#000000' : '#ffffff'
+        })
+        for (let i = 0; i < generated.length; i++) {
+            generated[i] = generated[i] + transparencyHexCode
+        }
+        return generated
+    })();
 
 
     const globalThemeConfig: ThemeConfig = {
@@ -51,11 +57,12 @@ function App() {
         token: {
             colorPrimary: primaryColor,
             borderRadius: 4,
-            fontSize: 18
+            fontSize: 18,
+            colorBgContainer: darkMode ? '#000000C1' : '#FFFFFFB1'
         },
         components: {
-            Menu: { colorBgContainer: colors[2], horizontalItemBorderRadius: 8, itemBorderRadius: 8, },
-            Layout: { headerBg: colors[2], },
+            Menu: { colorBgContainer: darkMode ? colors[2] : colors[3], horizontalItemBorderRadius: 8, itemBorderRadius: 8, },
+            Layout: { headerBg: darkMode ? colors[2] : colors[5], bodyBg: 'transparent', footerBg: darkMode ? '#000000EE' : '#969696C1' },
             ColorPicker: { algorithm: true, borderRadius: 10, },
             Typography: { algorithm: true }
         }

@@ -45,17 +45,17 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                     <div className='logoArea'>
                         <img src='/barber.png' width='45px' height='auto' />
                     </div>
-                    <Menu mode='horizontal' items={items} defaultSelectedKeys={['1']} style={{ flex: 1, minWidth: 150, width: '100%', justifyContent: 'center' }}>
+                    <Menu mode='horizontal' items={items} defaultSelectedKeys={['1']} style={{ backgroundColor: 'transparent', flex: 1, minWidth: 150, width: '100%', justifyContent: 'center' }}>
                     </Menu>
                     <div className='settingsArea'>
                         <DarkModeSwitch checked={props.darkMode} onChange={toggleDarkMode} />
                         <ColorPicker size='small' value={colorPrimary} onChangeComplete={(color) => props.savePrimaryColor(color.toHexString())} />
                     </div>
                 </Header>
-                <Content style={{ padding: '0 48px' }}>
+                <Content style={{ padding: '0 24px' }}>
                     <div
                         style={{
-                            marginTop: 8,
+                            marginTop: 0,
                             padding: 24,
                             minHeight: '85vh',
                             background: colorBgContainer,
@@ -67,7 +67,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
 
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>
+                <Footer style={{ textAlign: 'center', fontSize: 14 }}>
                     Lucky Cuts Barbershop ©{new Date().getFullYear()} Created by Ant UED
                 </Footer>
             </Layout>
