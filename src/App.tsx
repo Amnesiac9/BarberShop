@@ -4,15 +4,20 @@ import AppLayout from './AppLayout'
 import { ConfigProvider, theme } from 'antd';
 import { generate } from '@ant-design/colors';
 // import { purple } from '@ant-design/colors';
-import type { ThemeConfig } from 'antd';
+import type { ThemeConfig, } from 'antd';
+
+// type Color = GetProp<ColorPickerProps, 'value'>; // ColorPickerProps, GetProp
 
 const { darkAlgorithm, defaultAlgorithm } = theme;
+const initialColorPrimary = '#001529'
 
-// TODO: Switch algorithm based on user preference
-const initialColorPrimary = () => {
-    return localStorage.getItem('primaryColor') ?? '#6eca89'
+
+const initialColorAccent = '#b31cec'
+
+const getInitialAccentColor = () => {
+    return localStorage.getItem('accentColor') ?? initialColorAccent
 }
-const initialDarkMode = () => {
+const getInitialDarkMode = () => {
     const darkMode = localStorage.getItem('darkMode')
     if (darkMode === null) {
         return window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -20,49 +25,55 @@ const initialDarkMode = () => {
     return darkMode === 'true'
 }
 
-const transparencyHexCode = '99' // Not 99%
+// const transparencyHexCode = '99' // Not 99%
 
 
 function App() {
     // const [themeConfig, setThemeConfig] = React.useState(globalThemeConfig)
-    const [darkMode, setDarkMode] = React.useState(initialDarkMode())
-    const [primaryColor, setPrimaryColor] = React.useState(initialColorPrimary)
+    const [darkMode, setDarkMode] = React.useState(getInitialDarkMode())
+    const [accentColor, setAccentColor] = React.useState<string>(getInitialAccentColor())
+
+    const colorsAccent = generateWithTransparency(accentColor)
+    const colorsPrimary = generateWithTransparency(initialColorPrimary)
 
     function saveDarkMode(darkMode: boolean) {
         localStorage.setItem('darkMode', darkMode.toString())
         setDarkMode(darkMode)
     }
 
-    function savePrimaryColor(color: string) {
+    function saveAccentColor(color: string) {
+        // If transparency is 00, then the user hit the reset button.
+        if (color.length == 9 && color.slice(7) == '00') {
+            console.log('cleared')
+            color = initialColorAccent
+        }
         localStorage.setItem('primaryColor', color)
-        setPrimaryColor(color)
+        setAccentColor(color)
     }
 
-    // Generate theme based on primary color
-    // Append the transparancy code to them
-    const colors = (() => {
-        const generated = generate(primaryColor, {
+    // Append the transparancy code to them since generate does not return transparency.
+    function generateWithTransparency(color: string) {
+        const generated = generate(color, {
             theme: darkMode ? 'dark' : 'default',
             backgroundColor: darkMode ? '#000000' : '#ffffff'
         })
         for (let i = 0; i < generated.length; i++) {
-            generated[i] = generated[i] + transparencyHexCode
+            generated[i] = generated[i] + accentColor.slice(7)
         }
         return generated
-    })();
-
+    }
 
     const globalThemeConfig: ThemeConfig = {
         algorithm: darkMode ? darkAlgorithm : defaultAlgorithm,
         token: {
-            colorPrimary: primaryColor,
-            borderRadius: 4,
+            colorPrimary: accentColor,
+            // borderRadius: 4,
             fontSize: 18,
-            colorBgContainer: darkMode ? '#000000C1' : '#FFFFFFB1'
+            colorBgContainer: darkMode ? '#000000C1' : '#969696C1'
         },
         components: {
-            Menu: { colorBgContainer: darkMode ? colors[2] : colors[3], horizontalItemBorderRadius: 8, itemBorderRadius: 8, },
-            Layout: { headerBg: darkMode ? colors[2] : colors[5], bodyBg: 'transparent', footerBg: darkMode ? '#000000EE' : '#969696C1' },
+            Menu: { colorBgContainer: 'transparent', horizontalItemBorderRadius: 8, itemBorderRadius: 8, }, //colorBgContainer: darkMode ? colors[2] : colors[3],
+            Layout: { headerBg: colorsPrimary[4], bodyBg: 'transparent', footerBg: darkMode ? '#000000EE' : '#969696C1' },
             ColorPicker: { algorithm: true, borderRadius: 10, },
             Typography: { algorithm: true }
         }
@@ -70,7 +81,7 @@ function App() {
 
     return (
         <ConfigProvider theme={globalThemeConfig}>
-            <AppLayout darkMode={darkMode} saveDarkMode={saveDarkMode} savePrimaryColor={savePrimaryColor} />
+            <AppLayout darkMode={darkMode} saveDarkMode={saveDarkMode} saveAccentColor={saveAccentColor} accentColor={accentColor} />
         </ConfigProvider>
 
     )

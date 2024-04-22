@@ -1,5 +1,5 @@
 #root {
-    max-width: 2000px;
+    max-width: 1500px;
     margin: 0 auto;
     /* padding: 2rem; */
     text-align: center;
@@ -8,7 +8,7 @@
 
 body {
     background-color: transparent;
-    background-image: url('./public/BarberShop.webp');
+    background-image: url('/BarberShop.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

@@ -1,28 +1,22 @@
 
 import { Layout, Menu, theme, ColorPicker, Typography } from "antd";
 import DarkModeSwitch from './components/DarkModeSwitch';
-// import { Calendar } from "antd";
-// import { DatePicker } from 'antd';
-// import Header from './components/Header';
-// import Footer from './components/Footer';
-
+// import type { ColorPickerProps, GetProp } from 'antd';
 
 const { Header, Content, Footer } = Layout
-
 const { Title } = Typography
 
-// const { getDesignToken } = theme;
-// const globalToken = getDesignToken();
+// type Color = GetProp<ColorPickerProps, 'value'>;
 
 const items = new Array(3).fill(null).map((_, index) => ({
     key: String(index + 1),
     label: `nav ${index + 1}`,
 }));
 
-function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean) => void; savePrimaryColor: (color: string) => void; }) {
+function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean) => void; saveAccentColor: (color: string) => void; accentColor: string; }) {
 
     const {
-        token: { colorPrimary, colorBgContainer, borderRadiusLG },
+        token: { colorBgContainer }, // Can't use colorPrimary for color picker, transparency layer is lost.
     } = theme.useToken();
 
     function toggleDarkMode() {
@@ -45,21 +39,21 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                     <div className='logoArea'>
                         <img src='/barber.png' width='45px' height='auto' />
                     </div>
-                    <Menu mode='horizontal' items={items} defaultSelectedKeys={['1']} style={{ backgroundColor: 'transparent', flex: 1, minWidth: 150, width: '100%', justifyContent: 'center' }}>
+                    <Menu mode='horizontal' items={items} defaultSelectedKeys={['1']} style={{ flex: 1, minWidth: 150, width: '100%', justifyContent: 'center' }}>
                     </Menu>
                     <div className='settingsArea'>
                         <DarkModeSwitch checked={props.darkMode} onChange={toggleDarkMode} />
-                        <ColorPicker size='small' value={colorPrimary} onChangeComplete={(color) => props.savePrimaryColor(color.toHexString())} />
+                        <ColorPicker size='small' value={props.accentColor} onChangeComplete={(color) => props.saveAccentColor(color.toHexString())} allowClear /> {/*disabledAlpha*/}
                     </div>
                 </Header>
-                <Content style={{ padding: '0 24px' }}>
+                <Content >
                     <div
                         style={{
                             marginTop: 0,
                             padding: 24,
                             minHeight: '85vh',
                             background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
+                            // borderRadius: borderRadiusLG,
                         }}
                     >
                         Content
