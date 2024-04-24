@@ -24,27 +24,26 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
     }
 
 
-
     return (
         <>
-            <Header style={{ alignContent: 'center' }}>
-
-                <Title className='font-jersey-25-regular' style={{ margin: 0 }}>Lucky Cuts Barbershop</Title>
-
+            <Header style={{ display: 'flex', alignContent: 'center', alignItems: 'center' }}>
+                <div className='logoArea'>
+                    <img src='/barber.png' width='45px' height='auto' />
+                </div>
+                <Title className='font-jersey-25-regular' style={{ flex: 1, margin: 0 }}>Lucky Cuts Barbershop</Title>
+                <div className='settingsArea'>
+                    <DarkModeSwitch checked={props.darkMode} onChange={toggleDarkMode} />
+                    <ColorPicker size='small' value={props.accentColor} onChangeComplete={(color) => props.saveAccentColor(color.toHexString())} allowClear /> {/*disabledAlpha*/}
+                </div>
             </Header>
 
 
             <Layout>
-                <Header style={{ position: 'sticky', top: 0, display: 'flex' }}>
-                    <div className='logoArea'>
-                        <img src='/barber.png' width='45px' height='auto' />
-                    </div>
-                    <Menu mode='horizontal' items={items} defaultSelectedKeys={['1']} style={{ flex: 1, minWidth: 150, width: '100%', justifyContent: 'center' }}>
+                <Header style={{ display: 'flex' }}>
+
+                    <Menu mode='horizontal' items={items} defaultSelectedKeys={['1']} style={{ flex: 1, minWidth: 50, width: '100%', height: '100%', justifyContent: 'center' }}>
                     </Menu>
-                    <div className='settingsArea'>
-                        <DarkModeSwitch checked={props.darkMode} onChange={toggleDarkMode} />
-                        <ColorPicker size='small' value={props.accentColor} onChangeComplete={(color) => props.saveAccentColor(color.toHexString())} allowClear /> {/*disabledAlpha*/}
-                    </div>
+
                 </Header>
                 <Content >
                     <div

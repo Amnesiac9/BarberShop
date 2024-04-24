@@ -3,15 +3,11 @@ import './App.css'
 import AppLayout from './AppLayout'
 import { ConfigProvider, theme } from 'antd';
 import { generate } from '@ant-design/colors';
-// import { purple } from '@ant-design/colors';
 import type { ThemeConfig, } from 'antd';
 
-// type Color = GetProp<ColorPickerProps, 'value'>; // ColorPickerProps, GetProp
 
 const { darkAlgorithm, defaultAlgorithm } = theme;
 const initialColorPrimary = '#001529'
-
-
 const initialColorAccent = '#b31cec'
 
 const getInitialAccentColor = () => {
