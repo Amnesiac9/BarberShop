@@ -1,10 +1,11 @@
 
-import { Layout, Menu, theme, ColorPicker, Typography } from "antd";
+import { Layout, Menu, theme, ColorPicker } from "antd";
 import DarkModeSwitch from './components/DarkModeSwitch';
+import StyledTitle from './components-styled/StyledTitle'
 // import type { ColorPickerProps, GetProp } from 'antd';
 
 const { Header, Content, Footer } = Layout
-const { Title } = Typography
+// const { Title } = Typography
 
 // type Color = GetProp<ColorPickerProps, 'value'>;
 
@@ -30,7 +31,8 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                 <div className='logoArea'>
                     <img src='/barber.png' width='45px' height='auto' />
                 </div>
-                <Title className='font-jersey-25-regular' style={{ flex: 1, margin: 0 }}>Lucky Cuts Barbershop</Title>
+                {/* <Title className='font-jersey-25-regular' style={{ flex: 1, margin: 0 }}>Lucky Cuts Barbershop</Title> */}
+                <StyledTitle size='large'>Lucky Cuts Barbershop</StyledTitle>
                 <div className='settingsArea'>
                     <DarkModeSwitch checked={props.darkMode} onChange={toggleDarkMode} />
                     <ColorPicker size='small' value={props.accentColor} onChangeComplete={(color) => props.saveAccentColor(color.toHexString())} allowClear /> {/*disabledAlpha*/}
