@@ -25,16 +25,28 @@ const getInitialDarkMode = () => {
     return darkMode === 'true'
 }
 
-// const transparencyHexCode = '99' // Not 99%
-
+// Append the transparancy code to them since generate does not return transparency.
+function generateWithTransparency(color: string, transparencyHexCode: string, darkMode: boolean) {
+    const generated = generate(color, {
+        theme: darkMode ? 'dark' : 'default',
+        backgroundColor: darkMode ? '#000000' : '#ffffff'
+    })
+    // Grab the transparency code from the end of accentColor and append it to our generated colors.
+    for (let i = 0; i < generated.length; i++) {
+        generated[i] = generated[i] + transparencyHexCode
+    }
+    return generated
+}
 
 function App() {
     // const [themeConfig, setThemeConfig] = React.useState(globalThemeConfig)
     const [darkMode, setDarkMode] = React.useState(getInitialDarkMode())
     const [accentColor, setAccentColor] = React.useState<string>(getInitialAccentColor())
 
-    const colorsAccent = generateWithTransparency(accentColor)
-    const colorsPrimary = generateWithTransparency(initialColorPrimary)
+    const transparencyHexCode = accentColor.slice(7)
+
+    const colorsAccent = generateWithTransparency(accentColor, transparencyHexCode, darkMode)
+    const colorsPrimary = generateWithTransparency(initialColorPrimary, transparencyHexCode, darkMode)
 
     function saveDarkMode(darkMode: boolean) {
         localStorage.setItem('darkMode', darkMode.toString())
@@ -51,17 +63,7 @@ function App() {
         setAccentColor(color)
     }
 
-    // Append the transparancy code to them since generate does not return transparency.
-    function generateWithTransparency(color: string) {
-        const generated = generate(color, {
-            theme: darkMode ? 'dark' : 'default',
-            backgroundColor: darkMode ? '#000000' : '#ffffff'
-        })
-        for (let i = 0; i < generated.length; i++) {
-            generated[i] = generated[i] + accentColor.slice(7)
-        }
-        return generated
-    }
+
 
     const globalThemeConfig: ThemeConfig = {
         algorithm: darkMode ? darkAlgorithm : defaultAlgorithm,
