@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css'
 import AppLayout from './AppLayout'
 import { ConfigProvider, theme } from 'antd';
-import { generate } from '@ant-design/colors';
+import { blue, generate } from '@ant-design/colors';
 import type { ThemeConfig, } from 'antd';
 
 
@@ -67,13 +67,14 @@ function App() {
             colorPrimary: accentColor,
             // borderRadius: 4,
             fontSize: 18,
-            colorBgContainer: darkMode ? '#000000C1' : '#969696C1'
+            colorBgContainer: darkMode ? '#000000D9' : '#969696C1'
         },
         components: {
             Menu: { colorBgContainer: 'transparent', horizontalItemBorderRadius: 8, itemBorderRadius: 8, }, //colorBgContainer: darkMode ? colors[2] : colors[3],
             Layout: { headerBg: colorsPrimary[4], bodyBg: 'transparent', footerBg: darkMode ? '#000000EE' : '#969696C1' },
             ColorPicker: { algorithm: true, borderRadius: 10, },
-            Typography: { algorithm: true }
+            Typography: { algorithm: true },
+            Carousel: { colorBgContainer: colorsAccent[8] }
         }
     }
 

@@ -1,3 +1,7 @@
+:root {
+    --text-color: rgb(233, 233, 233);
+}
+
 #root {
     max-width: 1500px;
     margin: 0 auto;
@@ -11,7 +15,8 @@ body {
     background-image: url('/BarberShop.webp');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* background-repeat: no-repeat; */
 }
 
 
@@ -38,6 +43,11 @@ body {
     justify-content: center;
     min-width: 10%;
 }
+
+/* .whiteDots>* {
+    background-color: var(--text-color);
+    border-radius: 25%;
+} */
 
 /* .logo {
     align-content: center;

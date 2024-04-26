@@ -1,7 +1,11 @@
 
+import React from "react";
+import type { MenuProps } from 'antd';
 import { Layout, Menu, theme, ColorPicker } from "antd";
 import DarkModeSwitch from './components/DarkModeSwitch';
 import StyledTitle from './components-styled/StyledTitle'
+import Homepage from './pages/Home'
+
 // import type { ColorPickerProps, GetProp } from 'antd';
 
 const { Header, Content, Footer } = Layout
@@ -9,12 +13,35 @@ const { Header, Content, Footer } = Layout
 
 // type Color = GetProp<ColorPickerProps, 'value'>;
 
-const items = new Array(3).fill(null).map((_, index) => ({
-    key: String(index + 1),
-    label: `nav ${index + 1}`,
-}));
+// const items = new Array(3).fill(null).map((_, index) => ({
+//     key: String(index + 1),
+//     label: `nav ${index + 1}`,
+// }));
+
+
+const items: MenuProps['items'] = [
+    {
+        label: 'Home',
+        key: '/home',
+    },
+    {
+        label: 'Book Appointment',
+        key: '/book',
+    },
+    {
+        label: 'About',
+        key: '/about'
+    }
+]
 
 function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean) => void; saveAccentColor: (color: string) => void; accentColor: string; }) {
+
+    const [path, setPath] = React.useState('/home')
+
+    const onClick: MenuProps['onClick'] = (e) => {
+        console.log('click ', e);
+        setPath(e.key);
+    };
 
     const {
         token: { colorBgContainer }, // Can't use colorPrimary for color picker, transparency layer is lost.
@@ -23,7 +50,6 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
     function toggleDarkMode() {
         props.saveDarkMode(!props.darkMode)
     }
-
 
     return (
         <>
@@ -43,7 +69,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
             <Layout>
                 <Header style={{ display: 'flex' }}>
 
-                    <Menu mode='horizontal' items={items} defaultSelectedKeys={['1']} style={{ flex: 1, minWidth: 50, width: '100%', height: '100%', justifyContent: 'center' }}>
+                    <Menu onClick={onClick} mode='horizontal' items={items} defaultSelectedKeys={['/home']} style={{ flex: 1, minWidth: 50, width: '100%', height: '100%', justifyContent: 'center' }}>
                     </Menu>
 
                 </Header>
@@ -57,8 +83,11 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                             // borderRadius: borderRadiusLG,
                         }}
                     >
-                        Content
-                        Content
+
+                        {path == '/home' && (<Homepage />)}
+                        {path == '/book' && (<p>book appointment</p>)}
+                        {path == '/about' && (<p>about</p>)}
+
 
                     </div>
                 </Content>
