@@ -3,7 +3,7 @@ import React from "react";
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme, ColorPicker } from "antd";
 import DarkModeSwitch from './components/DarkModeSwitch';
-import StyledTitle from './components-styled/StyledTitle'
+import StyledTitle from './components-styled/Title.styled'
 import Homepage from './pages/Home'
 
 // import type { ColorPickerProps, GetProp } from 'antd';
@@ -44,7 +44,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
     };
 
     const {
-        token: { colorBgContainer }, // Can't use colorPrimary for color picker, transparency layer is lost.
+        token: { colorBgContainer },
     } = theme.useToken();
 
     function toggleDarkMode() {
@@ -55,7 +55,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
         <>
             <Header style={{ display: 'flex', alignContent: 'center', alignItems: 'center' }}>
                 <div className='logoArea'>
-                    <img src='/barber.png' width='45px' height='auto' />
+                    <img src='/barber.png' width='75px' height='auto' />
                 </div>
                 {/* <Title className='font-jersey-25-regular' style={{ flex: 1, margin: 0 }}>Lucky Cuts Barbershop</Title> */}
                 <StyledTitle size='large'>Lucky Cuts Barbershop</StyledTitle>
@@ -80,7 +80,6 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                             padding: 24,
                             minHeight: '85vh',
                             background: colorBgContainer,
-                            // borderRadius: borderRadiusLG,
                         }}
                     >
 
@@ -92,7 +91,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center', fontSize: 14 }}>
-                    Lucky Cuts Barbershop ©{new Date().getFullYear()} Created by Ant UED
+                    Lucky Cuts Barbershop ©{new Date().getFullYear()} Created by John Moreau CSS247
                 </Footer>
             </Layout>
 

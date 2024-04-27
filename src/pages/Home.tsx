@@ -1,6 +1,6 @@
 
 import { Carousel } from 'antd';
-import StyledImage from '../components-styled/StyledImg';
+import StyledImage from '../components-styled/Img.styled';
 
 function Homepage() {
 

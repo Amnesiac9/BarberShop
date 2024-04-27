@@ -2,13 +2,13 @@ import React from 'react';
 import './App.css'
 import AppLayout from './AppLayout'
 import { ConfigProvider, theme } from 'antd';
-import { blue, generate } from '@ant-design/colors';
+import { generate } from '@ant-design/colors';
 import type { ThemeConfig, } from 'antd';
 
 
 const { darkAlgorithm, defaultAlgorithm } = theme;
 const initialColorPrimary = '#001529'
-const initialColorAccent = '#b31cec'
+const initialColorAccent = '#1CEC65'
 
 const getInitialAccentColor = () => {
     return localStorage.getItem('accentColor') ?? initialColorAccent
@@ -59,6 +59,8 @@ function App() {
         setAccentColor(color)
     }
 
+    const backgroundColor = darkMode ? '#000000' + transparencyHexCode : '#FFFFFF' + transparencyHexCode
+
 
 
     const globalThemeConfig: ThemeConfig = {
@@ -67,14 +69,14 @@ function App() {
             colorPrimary: accentColor,
             // borderRadius: 4,
             fontSize: 18,
-            colorBgContainer: darkMode ? '#000000D9' : '#969696C1'
+            colorBgContainer: backgroundColor
         },
         components: {
             Menu: { colorBgContainer: 'transparent', horizontalItemBorderRadius: 8, itemBorderRadius: 8, }, //colorBgContainer: darkMode ? colors[2] : colors[3],
-            Layout: { headerBg: colorsPrimary[4], bodyBg: 'transparent', footerBg: darkMode ? '#000000EE' : '#969696C1' },
+            Layout: { headerBg: colorsPrimary[4], bodyBg: 'transparent', footerBg: backgroundColor },
             ColorPicker: { algorithm: true, borderRadius: 10, },
             Typography: { algorithm: true },
-            Carousel: { colorBgContainer: colorsAccent[8] }
+            Carousel: { colorBgContainer: colorsAccent[8] },
         }
     }
 
