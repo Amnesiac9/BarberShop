@@ -62,19 +62,17 @@ function App() {
     }
 
 
-
-
-
     const globalThemeConfig: ThemeConfig = {
         algorithm: darkMode ? darkAlgorithm : defaultAlgorithm,
         token: {
             colorPrimary: accentColor,
             // borderRadius: 4,
             fontSize: 18,
-            colorBgContainer: backgroundColor
+            colorBgContainer: backgroundColor,
+            fontFamily: 'Roboto Mono, monospace',
         },
         components: {
-            Menu: { colorBgContainer: darkMode ? colorsPrimary[4] : colorsPrimary[3], horizontalItemBorderRadius: 8, itemBorderRadius: 8, }, //colorBgContainer: darkMode ? colors[2] : colors[3],
+            Menu: { colorBgContainer: darkMode ? colorsPrimary[4] : colorsPrimary[3], horizontalItemBorderRadius: 8, itemBorderRadius: 8, fontSize: 29, }, //colorBgContainer: darkMode ? colors[2] : colors[3],
             Layout: { headerBg: darkMode ? colorsPrimary[4] : colorsPrimary[3], bodyBg: 'transparent', footerBg: backgroundColor },
             ColorPicker: { algorithm: true, borderRadius: 10, },
             Typography: { algorithm: true },

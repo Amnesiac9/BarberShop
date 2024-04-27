@@ -1,13 +1,14 @@
 import styled, { css } from 'styled-components'
 
 
-const Title = styled.div < { size?: string } > `
+const Title = styled.h1 < { size?: string } > `
 font-family: "Jersey 25", sans-serif;
 font-weight: 400;
-font-style: normal;
 flex: 1;
 margin: 0 25px;
 font-size: 50px;
+align-content: center;
+overflow: hidden;
 
 ${(props) => {
         switch (props.size) {
@@ -17,7 +18,7 @@ ${(props) => {
             `;
             case "large":
                 return css`
-            font-size: 75px;
+            font-size: 80px;
             `;
         }
     }}
