@@ -47,7 +47,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
             <Layout>
                 <CustomHeader {...props}></CustomHeader>
                 <Content >
-                    <Menu onClick={onClick} mode='horizontal' items={items} defaultSelectedKeys={['/home']} style={{ flex: 1, minWidth: 50, width: '100%', height: '100%', justifyContent: 'center' }}>
+                    <Menu onClick={onClick} mode='horizontal' items={items} defaultSelectedKeys={['/home']} style={{ fontSize: 25, flex: 1, minWidth: 50, width: '100%', height: '100%', justifyContent: 'center' }}>
                     </Menu>
                     <Container>
                         {path == '/home' && (<Homepage />)}

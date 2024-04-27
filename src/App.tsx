@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css'
 import AppLayout from './AppLayout'
 import { ConfigProvider, theme } from 'antd';
 import { generate } from '@ant-design/colors';
 import type { ThemeConfig, } from 'antd';
 import { ThemeProvider } from 'styled-components';
+import GlobalStyle from './components-styled/GlobalStyles';
 
 
 const { darkAlgorithm, defaultAlgorithm } = theme;
@@ -83,10 +83,12 @@ function App() {
     }
 
     return (
-        // Config Provider for antd components.
+
         <ConfigProvider theme={globalThemeConfig}>
             {/* Theme provider to allow using the antd theme in styled components. */}
             <ThemeProvider theme={globalThemeConfig}>
+                {/* Loads the global styles, using this instead of App.css */}
+                <GlobalStyle />
                 <AppLayout darkMode={darkMode} saveDarkMode={saveDarkMode} saveAccentColor={saveAccentColor} accentColor={accentColor} />
             </ThemeProvider>
         </ConfigProvider>
