@@ -3,11 +3,13 @@
 }
 
 #root {
-    max-width: 1500px;
+    max-width: 1250px;
     margin: 0 auto;
     /* padding: 2rem; */
     text-align: center;
     width: 100%;
+    /* Not sure why, but on some mobile screens the page would scroll for no reason into white space. */
+    overflow-x: hidden;
 }
 
 body {
@@ -17,24 +19,20 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+
+    /* object-fit: cover; */
     /* background-repeat: no-repeat; */
 }
 
 
-.font-jersey-25-regular {
-    font-family: "Jersey 25", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-.settingsArea {
+/* .settingsArea {
     display: Flex;
     align-items: center;
     justify-content: center;
     min-width: 10%;
-}
+} */
 
-.settingsArea>* {
+/* .settingsArea>* {
     margin: 0 5px;
 }
 
@@ -43,4 +41,4 @@ body {
     align-items: center;
     justify-content: center;
     min-width: 10%;
-}
+} */

@@ -4,6 +4,7 @@ import AppLayout from './AppLayout'
 import { ConfigProvider, theme } from 'antd';
 import { generate } from '@ant-design/colors';
 import type { ThemeConfig, } from 'antd';
+import { ThemeProvider } from 'styled-components';
 
 
 const { darkAlgorithm, defaultAlgorithm } = theme;
@@ -22,10 +23,10 @@ const getInitialDarkMode = () => {
 }
 
 // Append the transparancy code to them since generate does not return transparency.
-function generateWithTransparency(color: string, transparencyHexCode: string, darkMode: boolean) {
+function generateWithTransparency(color: string, backgroundColor: string, transparencyHexCode: string, darkMode: boolean) {
     const generated = generate(color, {
         theme: darkMode ? 'dark' : 'default',
-        backgroundColor: darkMode ? '#000000' : '#ffffff'
+        backgroundColor: backgroundColor //darkMode ? '#000000' : '#ffffff'
     })
     // Grab the transparency code from the end of accentColor and append it to our generated colors.
     for (let i = 0; i < generated.length; i++) {
@@ -40,9 +41,10 @@ function App() {
     const [accentColor, setAccentColor] = React.useState<string>(getInitialAccentColor())
 
     const transparencyHexCode = accentColor.slice(7)
+    const backgroundColor = darkMode ? '#111111' + transparencyHexCode : '#FFFFFF' + transparencyHexCode
 
-    const colorsAccent = generateWithTransparency(accentColor, transparencyHexCode, darkMode)
-    const colorsPrimary = generateWithTransparency(initialColorPrimary, transparencyHexCode, darkMode)
+    const colorsAccent = generateWithTransparency(accentColor, backgroundColor, transparencyHexCode, darkMode)
+    const colorsPrimary = generateWithTransparency(initialColorPrimary, backgroundColor, transparencyHexCode, darkMode)
 
     function saveDarkMode(darkMode: boolean) {
         localStorage.setItem('darkMode', darkMode.toString())
@@ -59,7 +61,7 @@ function App() {
         setAccentColor(color)
     }
 
-    const backgroundColor = darkMode ? '#000000' + transparencyHexCode : '#FFFFFF' + transparencyHexCode
+
 
 
 
@@ -72,8 +74,8 @@ function App() {
             colorBgContainer: backgroundColor
         },
         components: {
-            Menu: { colorBgContainer: 'transparent', horizontalItemBorderRadius: 8, itemBorderRadius: 8, }, //colorBgContainer: darkMode ? colors[2] : colors[3],
-            Layout: { headerBg: colorsPrimary[4], bodyBg: 'transparent', footerBg: backgroundColor },
+            Menu: { colorBgContainer: darkMode ? colorsPrimary[4] : colorsPrimary[3], horizontalItemBorderRadius: 8, itemBorderRadius: 8, }, //colorBgContainer: darkMode ? colors[2] : colors[3],
+            Layout: { headerBg: darkMode ? colorsPrimary[4] : colorsPrimary[3], bodyBg: 'transparent', footerBg: backgroundColor },
             ColorPicker: { algorithm: true, borderRadius: 10, },
             Typography: { algorithm: true },
             Carousel: { colorBgContainer: colorsAccent[8] },
@@ -81,8 +83,12 @@ function App() {
     }
 
     return (
+        // Config Provider for antd components.
         <ConfigProvider theme={globalThemeConfig}>
-            <AppLayout darkMode={darkMode} saveDarkMode={saveDarkMode} saveAccentColor={saveAccentColor} accentColor={accentColor} />
+            {/* Theme provider to allow using the antd theme in styled components. */}
+            <ThemeProvider theme={globalThemeConfig}>
+                <AppLayout darkMode={darkMode} saveDarkMode={saveDarkMode} saveAccentColor={saveAccentColor} accentColor={accentColor} />
+            </ThemeProvider>
         </ConfigProvider>
 
     )

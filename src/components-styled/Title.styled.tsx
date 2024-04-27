@@ -18,12 +18,12 @@ import styled, { css } from 'styled-components'
 // `
 
 
-const StyledTitle = styled.div < { size?: string } > `
+const Title = styled.div < { size?: string } > `
 font-family: "Jersey 25", sans-serif;
 font-weight: 400;
 font-style: normal;
 flex: 1;
-margin: 0;
+margin: 0 25px;
 font-size: 50px;
 
 ${(props) => {
@@ -42,4 +42,4 @@ ${(props) => {
 `;
 
 
-export default StyledTitle
+export default Title
