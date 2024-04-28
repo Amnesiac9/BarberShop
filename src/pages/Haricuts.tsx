@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Spin } from "antd";
 
 
 interface Haircut {
@@ -10,22 +11,21 @@ function Haircuts() {
     const [images, setImages] = useState<Haircut[]>([])
 
     useEffect(() => {
+        // This took a while to learn how to do, probably should have just setup a quick go server to serve these LOL.
+        // https://vite-workshop.vercel.app/glob-import#:~:text=Here%20are%20some%20ways%20that%20I%20tend%20to,the%20same%20tests%20over%20all%20of%20them.%20
         const fetchImages = async () => {
             try {
                 console.log("Fetching haircuts...")
-                const imageFiles = import.meta.glob('../../public/haircuts/*.jpg')
-
-                console.log(imageFiles)
+                const imageFiles = import.meta.glob('../../public/haircuts/*.jpg', { eager: true, as: 'url' })
 
                 const haircuts: Haircut[] = [];
 
-                for (const obj of Object.entries(imageFiles)) {
-                    console.log("Obj:", obj)
-                    obj[1]().then((webp) => {
-                        haircuts.push({
-                            src: (webp as string),
-                            title: obj[0]
-                        })
+                for (const file of Object.entries(imageFiles)) {
+                    const title = file[0].split('/')[4].split('.')[0].split('-').join(' ')
+                    console.log(title)
+                    haircuts.push({
+                        src: file[1],
+                        title: title
                     })
                 }
 
@@ -47,12 +47,17 @@ function Haircuts() {
     }, [])
 
 
-
+    if (images.length === 0) {
+        return (<Spin size='large' />)
+    }
 
 
     return (
+
+
+
         <div>
-            <h2>Image List</h2>
+            <h2>Haircut Gallery</h2>
             <ul>
                 {images.map((image, index) => (
                     <li key={index}>
