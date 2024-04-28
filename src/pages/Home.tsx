@@ -1,9 +1,8 @@
-
 import { Button, Carousel } from 'antd';
 import StyledImage from '../components-styled/Img.styled';
 import Schedule from '../components/Schedule';
 
-function Homepage() {
+function Homepage(props: { updatePath: () => void }) {
 
     return (
         <div >
@@ -24,7 +23,7 @@ function Homepage() {
 
             </div>
             <Schedule />
-            <Button type="primary" size="large">Book Now</Button>
+            <Button type="primary" size="large" onClick={() => props.updatePath()}>Book Now</Button>
 
         </div>
     )
