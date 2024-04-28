@@ -5,7 +5,7 @@ const Card = styled.div < { $size?: string, $flexDirection?: string, $noShadow?:
     display: flex;
     flex-direction: column;
     margin: 25px auto;
-    padding: 20px;
+    padding: 25px 20px;
     max-width: 50%;
     /* align-items: center; */
     justify-content: space-evenly;
