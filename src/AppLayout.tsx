@@ -5,7 +5,7 @@ import Homepage from './pages/Home'
 import CustomHeader from "./components/CusomHeader";
 import Container from "./components-styled/Container.styled";
 import Menu from './components-styled/Menu.styled'
-import Haircuts from "./pages/Haricuts";
+import Gallery from "./pages/Gallery";
 
 // import type { ColorPickerProps, GetProp } from 'antd';
 
@@ -57,7 +57,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                     </Menu>
                     <Container>
                         {path == '/home' && (<Homepage />)}
-                        {path == '/gallery' && (<Haircuts />)}
+                        {path == '/gallery' && (<Gallery />)}
                         {path == '/book' && (<div><p>book appointment</p></div>)}
                         {path == '/about' && (<p>about</p>)}
                     </Container>

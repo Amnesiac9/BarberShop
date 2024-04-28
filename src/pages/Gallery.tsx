@@ -7,7 +7,7 @@ interface Haircut {
     title: string
 }
 
-function Haircuts() {
+function Gallery() {
     const [images, setImages] = useState<Haircut[]>([])
 
     useEffect(() => {
@@ -15,33 +15,21 @@ function Haircuts() {
         // https://vite-workshop.vercel.app/glob-import#:~:text=Here%20are%20some%20ways%20that%20I%20tend%20to,the%20same%20tests%20over%20all%20of%20them.%20
         const fetchImages = async () => {
             try {
-                console.log("Fetching haircuts...")
-                const imageFiles = import.meta.glob('../../public/haircuts/*.jpg', { eager: true, as: 'url' })
+                const imageFiles = import.meta.glob('../../public/haircuts/*.jpg', { eager: true, query: '?url', import: 'default' })
 
                 const haircuts: Haircut[] = [];
 
                 for (const file of Object.entries(imageFiles)) {
                     const title = file[0].split('/')[4].split('.')[0].split('-').join(' ')
-                    console.log(title)
                     haircuts.push({
-                        src: file[1],
+                        src: (file[1] as string).replace('/public', ''),
                         title: title
                     })
                 }
-
-
-                console.log(haircuts.length)
-
                 setImages(haircuts)
-
-
-
             } catch (error) {
                 console.error("while trying to load images: ", error)
             }
-
-
-
         }
         fetchImages()
     }, [])
@@ -71,4 +59,4 @@ function Haircuts() {
     )
 }
 
-export default Haircuts
+export default Gallery
