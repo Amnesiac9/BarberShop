@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Spin } from "antd";
+import { useState, useEffect } from 'react';
+import { Spin, Pagination } from "antd";
+import type { PaginationProps } from 'antd';
 
 
 interface Haircut {
@@ -7,8 +8,22 @@ interface Haircut {
     title: string
 }
 
+
+
 function Gallery() {
     const [images, setImages] = useState<Haircut[]>([])
+    const [pageSize, setPageSize] = useState(10)
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
+        setPageSize(pageSize)
+        console.log(current, pageSize);
+    };
+
+    const onPageChange: PaginationProps['onChange'] = (page) => {
+        setCurrentPage(page)
+
+    }
 
     useEffect(() => {
         // This took a while to learn how to do, probably should have just setup a quick go server to serve these LOL.
@@ -39,22 +54,37 @@ function Gallery() {
         return (<Spin size='large' />)
     }
 
+    // const pages = Math.ceil(images.length / pageSize)
+    // console.log(pages)
+
+    const firstIndex = (currentPage - 1) + ((pageSize - 1) * (currentPage - 1))
+
+    const lastIndex = firstIndex + pageSize - 1
+
+    console.log(currentPage - 1)
+    console.log(firstIndex, lastIndex)
 
     return (
 
 
-        // TODO: paginate and limit to 10 haircuts per page
         // TODO: Make images smaller and clickable to view.
         <div>
             <h2>Haircut Gallery</h2>
             <ul>
-                {images.map((image, index) => (
+                {images.slice(firstIndex, lastIndex).map((image, index) => (
                     <li key={index}>
                         <img src={image.src} alt={image.title} />
                         <p>{image.title}</p>
                     </li>
                 ))}
             </ul>
+            <Pagination
+                showSizeChanger
+                onShowSizeChange={onShowSizeChange}
+                onChange={onPageChange}
+                defaultCurrent={1}
+                total={images.length}
+            />
         </div>
     )
 }
