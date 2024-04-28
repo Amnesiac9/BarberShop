@@ -1,29 +1,18 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 
 //TODO: Switch this size based on screen size
-const StyledImage = styled.img < { size?: string } > `
-width: 400px;
+const StyledImage = styled.img`
+width: 500px;
+max-width: 500px;
 height: auto;
-padding: 50px;
-flex: 1;
+padding: 10px;
+/* flex: 1; */
 text-align: center;
 align-content: center;
 align-items: center;
-margin: auto;
+/* margin: auto; */
 
-${(props) => {
-        switch (props.size) {
-            case "small":
-                return css`
-            font-size: 25px;
-            `;
-            case "large":
-                return css`
-            font-size: 75px;
-            `;
-        }
-    }}
 
 `;
 

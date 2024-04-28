@@ -7,17 +7,8 @@ import Container from "./components-styled/Container.styled";
 import Menu from './components-styled/Menu.styled'
 import Gallery from "./pages/Gallery";
 
-// import type { ColorPickerProps, GetProp } from 'antd';
-
 const { Content, Footer } = Layout
-// const { Title } = Typography
 
-// type Color = GetProp<ColorPickerProps, 'value'>;
-
-// const items = new Array(3).fill(null).map((_, index) => ({
-//     key: String(index + 1),
-//     label: `nav ${index + 1}`,
-// }));
 
 
 const items: MenuProps['items'] = [

@@ -1,12 +1,14 @@
 import { Button, Carousel } from 'antd';
 import StyledImage from '../components-styled/Img.styled';
 import Schedule from '../components/Schedule';
+import CarouselItem from '../components/CarouselItem';
 
 function Homepage(props: { updatePath: (key: string) => void }) {
 
     return (
         <div >
-            <Carousel autoplay>
+            <Carousel >
+                <CarouselItem src="./haircuts/High-Top-Fade.jpg" ><h3>High Top Fade sdasdasdsa Makes uhsuiafhsdp uashdisuahdiusha</h3></CarouselItem>
                 <div>
                     <StyledImage alt="Haircut1" src="./haircuts/High-Top-Fade.jpg" />
                 </div>
