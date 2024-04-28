@@ -81,9 +81,9 @@ function App() {
     }
 
     return (
-
+        // Global config provider for Ant Design.
         <ConfigProvider theme={globalThemeConfig}>
-            {/* Theme provider to allow using the antd theme in styled components. */}
+            {/* Theme provider to allow using the antd theme in custom styled components. */}
             <ThemeProvider theme={globalThemeConfig}>
                 {/* Loads the global styles, using this instead of App.css */}
                 <GlobalStyle />
