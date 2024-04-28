@@ -41,10 +41,10 @@ function App() {
     const [accentColor, setAccentColor] = React.useState<string>(getInitialAccentColor())
 
     const transparencyHexCode = accentColor.slice(7)
-    const backgroundColor = darkMode ? '#111111' + transparencyHexCode : '#FFFFFF' + transparencyHexCode
+    const containerBgColor = darkMode ? '#111111' + transparencyHexCode : '#FFFFFF' + transparencyHexCode
 
-    const colorsAccent = generateWithTransparency(accentColor, backgroundColor, transparencyHexCode, darkMode)
-    const colorsPrimary = generateWithTransparency(initialColorPrimary, backgroundColor, transparencyHexCode, darkMode)
+    const colorsAccent = generateWithTransparency(accentColor, containerBgColor, transparencyHexCode, darkMode)
+    const colorsPrimary = generateWithTransparency(initialColorPrimary, containerBgColor, transparencyHexCode, darkMode)
 
     function saveDarkMode(darkMode: boolean) {
         localStorage.setItem('darkMode', darkMode.toString())
@@ -66,14 +66,14 @@ function App() {
         algorithm: darkMode ? darkAlgorithm : defaultAlgorithm,
         token: {
             colorPrimary: accentColor,
-            // borderRadius: 4,
+            borderRadius: 4,
             fontSize: 18,
-            colorBgContainer: backgroundColor,
-            fontFamily: 'Roboto Mono, monospace',
+            colorBgContainer: containerBgColor,
+            fontFamily: '"Roboto Mono", monospace',
         },
         components: {
-            Menu: { colorBgContainer: darkMode ? colorsPrimary[4] : colorsPrimary[3], horizontalItemBorderRadius: 8, itemBorderRadius: 8, fontSize: 29, }, //colorBgContainer: darkMode ? colors[2] : colors[3],
-            Layout: { headerBg: darkMode ? colorsPrimary[4] : colorsPrimary[3], bodyBg: 'transparent', footerBg: backgroundColor },
+            Menu: { colorBgContainer: darkMode ? colorsPrimary[4] : colorsPrimary[3], horizontalItemBorderRadius: 8, itemBorderRadius: 8 }, //colorBgContainer: darkMode ? colors[2] : colors[3],
+            Layout: { headerBg: darkMode ? colorsPrimary[4] : colorsPrimary[3], bodyBg: 'transparent', footerBg: containerBgColor },
             ColorPicker: { algorithm: true, borderRadius: 10, },
             Typography: { algorithm: true },
             Carousel: { colorBgContainer: colorsAccent[8] },

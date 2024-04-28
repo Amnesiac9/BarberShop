@@ -1,9 +1,10 @@
 import React from "react";
 import type { MenuProps } from 'antd';
-import { Layout, Menu } from "antd";
+import { Layout } from "antd";
 import Homepage from './pages/Home'
 import CustomHeader from "./components/CusomHeader";
 import Container from "./components-styled/Container.styled";
+import Menu from './components-styled/Menu.styled'
 
 // import type { ColorPickerProps, GetProp } from 'antd';
 
@@ -28,7 +29,7 @@ const items: MenuProps['items'] = [
         key: '/book',
     },
     {
-        label: 'ABOUT',
+        label: 'INFO',
         key: '/about'
     }
 ]
@@ -47,7 +48,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
             <Layout>
                 <CustomHeader {...props}></CustomHeader>
                 <Content >
-                    <Menu onClick={onClick} mode='horizontal' items={items} defaultSelectedKeys={['/home']} style={{ flex: 1, fontWeight: 800, minWidth: 50, width: '100%', height: '100%', justifyContent: 'center', paddingTop: "15px" }}>
+                    <Menu onClick={onClick} mode='horizontal' items={items} defaultSelectedKeys={['/home']}>
                     </Menu>
                     <Container>
                         {path == '/home' && (<Homepage />)}

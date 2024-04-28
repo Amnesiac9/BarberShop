@@ -1,6 +1,7 @@
 
-import { Carousel } from 'antd';
+import { Button, Carousel } from 'antd';
 import StyledImage from '../components-styled/Img.styled';
+import Schedule from '../components/Schedule';
 
 function Homepage() {
 
@@ -14,6 +15,12 @@ function Homepage() {
 
                 </div>
             </Carousel>
+            <div>
+                <h1>"Remarkable Precision and Expertise"</h1>
+                <p>Experience a true barbershop shave and haircut.</p>
+                <Button type="primary" size="large">Book Now</Button>
+            </div>
+            <Schedule />
 
         </div>
     )
