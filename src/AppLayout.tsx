@@ -1,6 +1,6 @@
 import React from "react";
 import type { MenuProps } from 'antd';
-import { Button, Layout } from "antd";
+import { Layout } from "antd";
 import Homepage from './pages/Home'
 import CustomHeader from "./components/CusomHeader";
 import Container from "./components-styled/Container.styled";
@@ -54,13 +54,16 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
     // This doesn't feel great, Ant Design made passing down a func to update the path unintuitive.
     // I tried just passing down setPath and setting that, and the screen updates, but the menu indicator doesn't change.
     // If there's a better way, please let me know!
-    const bookNowClick = () => {
+    const clickMenuItem = (key: string) => {
         if (items === undefined) {
             console.error("items is undefined.")
             return;
         }
-        const nodes = document.querySelectorAll('.ant-menu-title-content');
-        const item = nodes[1] as HTMLElement
+        const item = document.querySelector(`li[data-menu-id$="${key}"]`) as HTMLElement
+        if (item === null) {
+            console.error("list item is null.")
+            return;
+        }
         item.click()
     }
 
@@ -71,9 +74,8 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                 <Content >
                     <Menu onClick={updatePath} mode='horizontal' items={items} defaultSelectedKeys={['/home']}>
                     </Menu>
-                    <Button onClick={() => bookNowClick()}>C:LICSJd</Button>
                     <Container>
-                        {path == '/home' && (<Homepage updatePath={bookNowClick} />)}
+                        {path == '/home' && (<Homepage updatePath={clickMenuItem} />)}
                         {path == '/gallery' && (<Gallery />)}
                         {path == '/book' && (<div><p>book appointment</p></div>)}
                         {path == '/about' && (<p>about</p>)}
