@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Spin } from "antd";
 
 
@@ -8,7 +8,7 @@ interface Haircut {
 }
 
 function Haircuts() {
-    const [haircuts, setHaircuts] = useState<Haircut[]>([])
+    const [images, setImages] = useState<Haircut[]>([])
 
     useEffect(() => {
         // This took a while to learn how to do, probably should have just setup a quick go server to serve these LOL.
@@ -16,19 +16,15 @@ function Haircuts() {
         const fetchImages = async () => {
             try {
                 console.log("Fetching haircuts...")
-                // Not sure if I should have the haircuts in assets or public, but public gives warnings from vite which is annoying.
-                const imageFiles = import.meta.glob('../assets/haircuts/*.jpg', { eager: true, import: 'default' })
+                const imageFiles = import.meta.glob('../../public/haircuts/*.jpg', { eager: true, as: 'url' })
 
                 const haircuts: Haircut[] = [];
 
-                console.log(imageFiles)
-
                 for (const file of Object.entries(imageFiles)) {
-                    const title = file[0].split('/')[3].split('.')[0].split('-').join(' ')
-                    const src = (file[1] as string)
-                    console.log(title, src)
+                    const title = file[0].split('/')[4].split('.')[0].split('-').join(' ')
+                    console.log(title)
                     haircuts.push({
-                        src: src,
+                        src: file[1],
                         title: title
                     })
                 }
@@ -36,7 +32,9 @@ function Haircuts() {
 
                 console.log(haircuts.length)
 
-                setHaircuts(haircuts)
+                setImages(haircuts)
+
+
 
             } catch (error) {
                 console.error("while trying to load images: ", error)
@@ -49,7 +47,7 @@ function Haircuts() {
     }, [])
 
 
-    if (haircuts.length === 0) {
+    if (images.length === 0) {
         return (<Spin size='large' />)
     }
 
@@ -62,7 +60,7 @@ function Haircuts() {
         <div>
             <h2>Haircut Gallery</h2>
             <ul>
-                {haircuts.map((image, index) => (
+                {images.map((image, index) => (
                     <li key={index}>
                         <img src={image.src} alt={image.title} />
                         <p>{image.title}</p>
