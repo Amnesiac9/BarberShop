@@ -5,6 +5,7 @@ import Homepage from './pages/Home'
 import CustomHeader from "./components/CusomHeader";
 import Container from "./components-styled/Container.styled";
 import Menu from './components-styled/Menu.styled'
+import Haircuts from "./pages/Haricuts";
 
 // import type { ColorPickerProps, GetProp } from 'antd';
 
@@ -27,6 +28,10 @@ const items: MenuProps['items'] = [
     {
         label: 'BOOK',
         key: '/book',
+    },
+    {
+        label: 'HAIRCUTS',
+        key: '/gallery'
     },
     {
         label: 'INFO',
@@ -52,6 +57,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                     </Menu>
                     <Container>
                         {path == '/home' && (<Homepage />)}
+                        {path == '/gallery' && (<Haircuts />)}
                         {path == '/book' && (<div><p>book appointment</p></div>)}
                         {path == '/about' && (<p>about</p>)}
                     </Container>

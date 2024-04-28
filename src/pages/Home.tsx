@@ -8,11 +8,11 @@ function Homepage() {
     return (
         <div >
             <Carousel autoplay>
-                <div style={{ display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'center' }}>
+                <div>
                     <StyledImage alt="Haircut1" src="./haircuts/High-Top-Fade.jpg.webp" />
                 </div>
                 <div>
-
+                    <StyledImage alt="Barber Shop Image" src="./haircuts/Long-Hair-Slicked-Back-Shaved-Sides.jpg.webp" />
                 </div>
             </Carousel>
             <div>

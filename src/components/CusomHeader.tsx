@@ -37,7 +37,7 @@ function CustomHeader(props: { darkMode: boolean; saveDarkMode: (darkMode: boole
     return (
         <ResponsiveHeader >
             <Flex>
-                <img src='/barber.png' width='64px' height='auto' />
+                <img src='/barber-logo.png' width='64px' height='auto' />
             </Flex>
             <Title size='large'>Lucky Cuts Barbershop</Title>
             <SettingsArea>
