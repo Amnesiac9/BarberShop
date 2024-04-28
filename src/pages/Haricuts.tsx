@@ -55,7 +55,8 @@ function Haircuts() {
     return (
 
 
-
+        // TODO: paginate and limit to 10 haircuts per page
+        // TODO: Make images smaller and clickable to view.
         <div>
             <h2>Haircut Gallery</h2>
             <ul>
