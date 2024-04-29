@@ -19,7 +19,7 @@ function Gallery() {
 
     const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
         setPageSize(pageSize)
-        console.log(current, pageSize);
+        // console.log(current, pageSize);
     };
 
     const onPageChange: PaginationProps['onChange'] = (page) => {
@@ -60,11 +60,10 @@ function Gallery() {
     const firstIndex = (currentPage - 1) + ((currentPage - 1) * (pageSize - 1))
     const lastIndex = firstIndex + pageSize // Slice at 10 will return 0-9
 
-    console.log(currentPage - 1)
-    console.log(firstIndex, lastIndex)
+    // console.log(currentPage - 1)
+    // console.log(firstIndex, lastIndex)
 
     return (
-        // TODO: Make images smaller and clickable to view.
         <div>
             <h2>Haircuts Gallery</h2>
             <Flex justify='center' wrap='wrap' >
