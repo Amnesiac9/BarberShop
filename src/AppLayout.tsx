@@ -7,6 +7,7 @@ import Container from "./components-styled/Container.styled";
 import Menu from './components-styled/Menu.styled'
 import Gallery from "./pages/Gallery";
 import Divider from "./components-styled/Divider.styled";
+import BookAppointment from "./pages/Book";
 
 const { Content, Footer } = Layout
 
@@ -70,7 +71,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                     <Container>
                         {path == '/home' && (<Homepage updatePath={clickMenuItem} />)}
                         {path == '/gallery' && (<Gallery />)}
-                        {path == '/book' && (<div><p>book appointment</p></div>)}
+                        {path == '/book' && (<BookAppointment />)}
                         {path == '/about' && (<p>about</p>)}
                     </Container>
                 </Content>

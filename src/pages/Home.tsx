@@ -2,7 +2,7 @@ import { Button, Carousel, Space } from 'antd';
 import Schedule from '../components/Schedule';
 import ImageCard from '../components/ImageCard';
 import Divider from '../components-styled/Divider.styled';
-import Card from '../components-styled/Card.styled';
+import InfoCard from '../components-styled/InfoCard.styled';
 
 function Homepage(props: { updatePath: (key: string) => void }) {
 
@@ -17,10 +17,10 @@ function Homepage(props: { updatePath: (key: string) => void }) {
                 <ImageCard alt="Curly-Hair-Fade-Short" src="./haircuts/Curly-Hair-Fade-Short.jpg" ></ImageCard>
             </Carousel>
             <Divider />
-            <Card $size='large' $noShadow>
+            <InfoCard $size='large' $noShadow>
                 <h1>"Remarkable Precision and Expertise"</h1>
                 <p>Experience a true barbershop shave and haircut.</p>
-            </Card>
+            </InfoCard>
             <Schedule />
             <Button type="primary" size="large" onClick={() => props.updatePath('/book')}>Book Now</Button>
             <Space />

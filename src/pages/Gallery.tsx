@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Spin, Pagination, Image, Flex, Card } from "antd";
+import { Spin, Pagination, Image, Flex } from "antd";
 import type { PaginationProps } from 'antd';
 import Meta from 'antd/es/card/Meta';
+import Card from '../components-styled/Card.styled';
 
 
 interface Haircut {
@@ -68,7 +69,7 @@ function Gallery() {
             <h2>Haircuts Gallery</h2>
             <Flex justify='center' wrap='wrap' >
                 {images.slice(firstIndex, lastIndex).map((image, index) => (
-                    <Card key={index} style={{ width: '25%', margin: '10px' }} hoverable cover={<Image width={'100%'} src={image.src} alt={image.title} />}>
+                    <Card key={index} hoverable cover={<Image width={'100%'} src={image.src} alt={image.title} />}>
                         <Meta description={image.title} />
                     </Card>
                 ))}

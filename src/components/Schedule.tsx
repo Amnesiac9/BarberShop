@@ -1,13 +1,13 @@
-import Card from "../components-styled/Card.styled"
+import InfoCard from "../components-styled/InfoCard.styled"
 
 
 function Schedule() {
     return (
-        <Card>
+        <InfoCard>
             <h1>Operating Hours</h1>
             <p>Open <strong>Monday</strong> through <strong>Saturday</strong> 9am-5pm.</p>
             <p></p>
-        </Card>
+        </InfoCard>
     )
 }
 

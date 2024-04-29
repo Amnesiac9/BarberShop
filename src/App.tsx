@@ -66,6 +66,7 @@ function App() {
         algorithm: darkMode ? darkAlgorithm : defaultAlgorithm,
         token: {
             colorPrimary: accentColor,
+            colorPrimaryHover: colorsAccent[3],
             borderRadius: 4,
             fontSize: 18,
             colorBgContainer: containerBgColor,
