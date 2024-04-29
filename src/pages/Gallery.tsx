@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Spin, Pagination } from "antd";
+import { Spin, Pagination, Image } from "antd";
 import type { PaginationProps } from 'antd';
 
 
@@ -57,23 +57,21 @@ function Gallery() {
     // const pages = Math.ceil(images.length / pageSize)
     // console.log(pages)
 
-    const firstIndex = (currentPage - 1) + ((pageSize - 1) * (currentPage - 1))
 
+    const firstIndex = (currentPage - 1) + ((currentPage - 1) * (pageSize - 1))
     const lastIndex = firstIndex + pageSize - 1
 
     console.log(currentPage - 1)
     console.log(firstIndex, lastIndex)
 
     return (
-
-
         // TODO: Make images smaller and clickable to view.
         <div>
-            <h2>Haircut Gallery</h2>
+            <h2>Haircuts Gallery</h2>
             <ul>
                 {images.slice(firstIndex, lastIndex).map((image, index) => (
                     <li key={index}>
-                        <img src={image.src} alt={image.title} />
+                        <Image width={200} src={image.src} alt={image.title} />
                         <p>{image.title}</p>
                     </li>
                 ))}

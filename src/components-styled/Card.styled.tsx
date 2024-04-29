@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 //TODO: Make Responsive
-const Card = styled.div < { $size?: string, $flexDirection?: string, $noShadow?: boolean } >`
+const Card = styled.div < { $size?: string, $flexDirection?: string, $noShadow?: boolean, $nowrap?: boolean } >`
     display: flex;
     flex-direction: column;
     margin: 25px auto;
@@ -10,9 +10,10 @@ const Card = styled.div < { $size?: string, $flexDirection?: string, $noShadow?:
     /* align-items: center; */
     justify-content: space-evenly;
     border-radius:  ${({ theme }) => theme.token.borderRadius + 'px'};
+    flex-wrap: ${(props) => (props.$nowrap ? 'nowrap' : 'wrap')};
+
+
    
-
-
     ${(props) => {
         switch (props.$flexDirection) {
             case "row":
@@ -32,8 +33,20 @@ const Card = styled.div < { $size?: string, $flexDirection?: string, $noShadow?:
     }}
 
     ${(props) => {
-        return props.$noShadow ? css`` : css`box-shadow:  0 0 8px ${({ theme }) => theme.token.colorPrimary};`
+        return props.$noShadow ? css`` : css`box-shadow: 0 0 8px ${({ theme }) => theme.token.colorPrimary};`
     }}
+
+/* &:hover {
+        box-shadow: 0 0 8px ${({ theme }) => theme.token.colorPrimaryBorderHover};
+    } */
+
+
+
+    @media screen and (max-width: 600px) {
+        padding: 10px;
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
 
 `
 
