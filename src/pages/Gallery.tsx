@@ -66,14 +66,13 @@ function Gallery() {
         // TODO: Make images smaller and clickable to view.
         <div>
             <h2>Haircuts Gallery</h2>
-
-            {images.slice(firstIndex, lastIndex).map((image, index) => (
-                <Flex key={index} wrap='wrap'>
-                    <Card style={{ width: '25%' }} hoverable cover={<Image width={'100%'} src={image.src} alt={image.title} />}>
+            <Flex justify='center' wrap='wrap' >
+                {images.slice(firstIndex, lastIndex).map((image, index) => (
+                    <Card key={index} style={{ width: '25%', margin: '10px' }} hoverable cover={<Image width={'100%'} src={image.src} alt={image.title} />}>
                         <Meta description={image.title} />
                     </Card>
-                </Flex>
-            ))}
+                ))}
+            </Flex>
             <Pagination
                 showSizeChanger
                 onShowSizeChange={onShowSizeChange}
