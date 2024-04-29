@@ -13,7 +13,7 @@ type FieldType = {
     email?: string;
     date?: dayjs.Dayjs;
     service?: string;
-    // time?: string;
+    time?: string;
 };
 
 const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
@@ -24,18 +24,23 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
 
+const workStartHour = 9;
+const workEndHour = 17;
+
 
 function BookAppointment() {
 
     const [form] = Form.useForm<FieldType>();
     const [serviceSelected, setServiceSelected] = React.useState(false);
     const [timeSlots, setTimeSlots] = React.useState<dayjs.Dayjs[]>([])
-    const now = dayjs();
+
 
     const dateValue = Form.useWatch('date', form)
     const serviceValue = Form.useWatch('service', form);
     const emailValue = Form.useWatch('email', form)
 
+    const now = dayjs();
+    const firstAvailableDay = now.hour() > 17 ? now.set('hour', 9).set('minute', 0).set('second', 0).add(1, 'day') : now
 
 
     useEffect(() => {
@@ -47,14 +52,20 @@ function BookAppointment() {
                 console.log('dateValue is undefined')
                 return;
             }
-            console.log('dateValue:', dateValue)
+            console.log('dateValue:', dateValue.format())
             try {
 
+                // starting hour is 9
+                // ending hour is 17
+                const todayEndTime = dayjs(dateValue).set('hour', 17).set('minute', 0);
+                const hoursLeft = -(dateValue.diff(todayEndTime, 'hour'))
+                // console.log('todayEndTime:', todayEndTime.format())
+                // console.log('hours left:', hoursLeft)
 
 
                 const timeslots: dayjs.Dayjs[] = [];
-                for (let i = 0; i <= 10; ++i) {
-                    const date = dayjs(dateValue).add(i, 'hour')
+                for (let i = 0; i < hoursLeft; ++i) {
+                    const date = dateValue.add(i, 'hour')
                     timeslots.push(date)
                 }
                 setTimeSlots(timeslots)
@@ -77,12 +88,12 @@ function BookAppointment() {
                     <Form form={form} size='large' layout='horizontal' style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: 600 }}
                         onFinish={onFinish} onFinishFailed={onFinishFailed}
                     >
-                        <Form.Item<FieldType> required label='Select a date' name="date" initialValue={now}
+                        <Form.Item<FieldType> required label='Select a date' name="date" initialValue={firstAvailableDay}
                             rules={[{ required: true, message: 'Please select a date.' }]}
                         >
                             <DatePicker
-                                minDate={now}
-                                maxDate={now.add(30, 'day')}
+                                minDate={firstAvailableDay}
+                                maxDate={firstAvailableDay.add(30, 'day')}
                             />
                         </Form.Item>
                         <Form.Item<FieldType> required label='Service' name="service"
@@ -96,7 +107,7 @@ function BookAppointment() {
                             <Input />
                         </Form.Item>
 
-                        {serviceSelected && (
+                        {serviceValue && dateValue && (
                             <Form.Item<FieldType> required label='Time Slot' name='time'
                                 rules={[{ required: true, message: 'Please select a time slot.' }]}
                             >
@@ -105,7 +116,7 @@ function BookAppointment() {
                         )}
 
                         <Form.Item>
-                            <Button disabled={serviceSelected} style={{ marginTop: '25px' }} type='primary' htmlType="submit" size='large'>Submit</Button>
+                            <Button disabled={!serviceValue || !dateValue} style={{ marginTop: '25px' }} type='primary' htmlType="submit" size='large'>Submit</Button>
                         </Form.Item>
                     </Form>
                 </div>
@@ -113,7 +124,8 @@ function BookAppointment() {
             <Typography>
                 <pre>Email Value: {emailValue}</pre>
                 <pre>Service Value: {serviceValue || ''}</pre>
-                <pre>Date Value: {dateValue?.format()}</pre>
+                <pre>Date Value: {dateValue?.format() ?? ''}</pre>
+                <pre>Available Times: {timeSlots.length}</pre>
             </Typography>
         </div>
 
