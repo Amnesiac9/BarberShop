@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 const Card = styled.div < { $size?: string, $flexDirection?: string, $noShadow?: boolean, $nowrap?: boolean } >`
     display: flex;
     flex-direction: column;
-    margin: 25px auto;
+    margin: 0px auto 25px auto;
     padding: 25px 20px;
     max-width: 50%;
     /* align-items: center; */

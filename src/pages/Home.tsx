@@ -15,8 +15,6 @@ function Homepage(props: { updatePath: (key: string) => void }) {
                 <ImageCard alt="High Top Fade Haircut" src="./haircuts/High-Top-Fade.jpg" ></ImageCard>
                 <ImageCard alt="Long-Hair-Slicked-Back-Shaved-Sides" src="./haircuts/Long-Hair-Slicked-Back-Shaved-Sides.jpg"></ImageCard>
                 <ImageCard alt="Curly-Hair-Fade-Short" src="./haircuts/Curly-Hair-Fade-Short.jpg" ></ImageCard>
-
-
             </Carousel>
             <Divider />
             <Card $size='large' $noShadow>

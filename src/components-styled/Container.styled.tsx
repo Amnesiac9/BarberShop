@@ -4,9 +4,9 @@ import styled from 'styled-components'
 // background: ${({ theme }) => theme.token.colorBgContainer}
 const Container = styled.div` 
     margin-top: 0;
-    padding: 24px;
+    padding: 0 24px;
     min-height: 85vh;
-    background: ${({ theme }) => theme.token.colorBgContainer} 
+    /* background: ${({ theme }) => theme.token.colorBgContainer}  */
 `
 
 export default Container

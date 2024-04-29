@@ -6,6 +6,7 @@ import CustomHeader from "./components/CusomHeader";
 import Container from "./components-styled/Container.styled";
 import Menu from './components-styled/Menu.styled'
 import Gallery from "./pages/Gallery";
+import Divider from "./components-styled/Divider.styled";
 
 const { Content, Footer } = Layout
 
@@ -65,6 +66,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                 <Content >
                     <Menu onClick={updatePath} mode='horizontal' items={items} defaultSelectedKeys={['/home']}>
                     </Menu>
+                    <Divider $maxWidth={55} $marginBottom='0px' />
                     <Container>
                         {path == '/home' && (<Homepage updatePath={clickMenuItem} />)}
                         {path == '/gallery' && (<Gallery />)}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Spin, Pagination, Image } from "antd";
+import { Spin, Pagination, Image, Flex, Card } from "antd";
 import type { PaginationProps } from 'antd';
+import Meta from 'antd/es/card/Meta';
 
 
 interface Haircut {
@@ -54,12 +55,9 @@ function Gallery() {
         return (<Spin size='large' />)
     }
 
-    // const pages = Math.ceil(images.length / pageSize)
-    // console.log(pages)
-
 
     const firstIndex = (currentPage - 1) + ((currentPage - 1) * (pageSize - 1))
-    const lastIndex = firstIndex + pageSize - 1
+    const lastIndex = firstIndex + pageSize // Slice at 10 will return 0-9
 
     console.log(currentPage - 1)
     console.log(firstIndex, lastIndex)
@@ -68,14 +66,14 @@ function Gallery() {
         // TODO: Make images smaller and clickable to view.
         <div>
             <h2>Haircuts Gallery</h2>
-            <ul>
-                {images.slice(firstIndex, lastIndex).map((image, index) => (
-                    <li key={index}>
-                        <Image width={200} src={image.src} alt={image.title} />
-                        <p>{image.title}</p>
-                    </li>
-                ))}
-            </ul>
+
+            {images.slice(firstIndex, lastIndex).map((image, index) => (
+                <Flex key={index} wrap='wrap'>
+                    <Card style={{ width: '25%' }} hoverable cover={<Image width={'100%'} src={image.src} alt={image.title} />}>
+                        <Meta description={image.title} />
+                    </Card>
+                </Flex>
+            ))}
             <Pagination
                 showSizeChanger
                 onShowSizeChange={onShowSizeChange}

@@ -73,7 +73,7 @@ function App() {
         },
         components: {
             Menu: { colorBgContainer: darkMode ? colorsPrimary[4] : colorsPrimary[3], horizontalItemBorderRadius: 8, itemBorderRadius: 8 }, //colorBgContainer: darkMode ? colors[2] : colors[3],
-            Layout: { headerBg: darkMode ? colorsPrimary[4] : colorsPrimary[3], bodyBg: 'transparent', footerBg: containerBgColor },
+            Layout: { headerBg: darkMode ? colorsPrimary[4] : colorsPrimary[3], bodyBg: containerBgColor, footerBg: containerBgColor },
             ColorPicker: { algorithm: true, borderRadius: 10, },
             Typography: { algorithm: true },
             Carousel: { colorBgContainer: colorsAccent[8] },
