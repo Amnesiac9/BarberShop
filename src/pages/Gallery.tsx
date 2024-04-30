@@ -18,8 +18,9 @@ function Gallery() {
     const [currentPage, setCurrentPage] = useState(1)
 
     const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
+        //setCurrentPage(current)
         setPageSize(pageSize)
-        // console.log(current, pageSize);
+        console.log(current, pageSize);
     };
 
     const onPageChange: PaginationProps['onChange'] = (page) => {
