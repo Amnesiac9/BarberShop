@@ -16,10 +16,10 @@ type FieldType = {
     time?: string;
 };
 
-interface Service {
-    name: string,
-    price: string,
-}
+// interface Service {
+//     name: string,
+//     price: string,
+// }
 
 const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
     console.log('Success:', values);
@@ -33,7 +33,7 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
 function BookAppointment() {
 
     const [form] = Form.useForm<FieldType>();
-    const [serviceSelected, setServiceSelected] = React.useState(false);
+    // const [serviceSelected, setServiceSelected] = React.useState(false);
     const [timeSlots, setTimeSlots] = React.useState<dayjs.Dayjs[]>([])
 
 
