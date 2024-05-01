@@ -1,5 +1,5 @@
 
-import { Button, DatePicker, Form, Input, Select, Typography } from 'antd';
+import { Button, DatePicker, Flex, Form, Input, Radio, Select, Space, Typography } from 'antd';
 import type { FormProps } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -43,6 +43,7 @@ function BookAppointment() {
 
     const now = dayjs();
     const firstAvailableDay = now.hour() > 17 ? now.set('hour', 9).set('minute', 0).set('second', 0).add(1, 'day') : now
+    // const firstAvailableDay = now 
 
 
     useEffect(() => {
@@ -57,12 +58,22 @@ function BookAppointment() {
             console.log('dateValue:', dateValue.format())
             try {
 
-                // starting hour is 9
-                // ending hour is 17
-                const todayEndTime = dayjs(dateValue).set('hour', 17).set('minute', 0);
-                const hoursLeft = -(dateValue.diff(todayEndTime, 'hour'))
+                // Grab the dif between the selected time and the start time of the day. Subtract that from our available hours.
+                const availableHours = 8
+                const todayStartTime = dayjs(dateValue).set('hour', 9).set('minute', 0).set('second', 0)
+                const dateValueDifFromStartTime = dateValue.diff(todayStartTime, 'hour')
+                let hoursLeft = availableHours - dateValueDifFromStartTime
+
+                // If our hours left is > 8 or < 0, set to those maximums.
+                hoursLeft = hoursLeft > 8 ? 8 : hoursLeft
+                hoursLeft = hoursLeft < 0 ? 0 : hoursLeft
+
+
+                //console.log('todayStartTime:', todayStartTime.format())
                 // console.log('todayEndTime:', todayEndTime.format())
+                // console.log('dateValueDifFromStartTime:', dateValueDifFromStartTime)
                 // console.log('hours left:', hoursLeft)
+                // console.log('available hours:', availableHours)
 
 
                 const timeslots: dayjs.Dayjs[] = [];
@@ -90,6 +101,14 @@ function BookAppointment() {
                     <Form form={form} size='large' layout='horizontal' style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: 600 }}
                         onFinish={onFinish} onFinishFailed={onFinishFailed}
                     >
+                        <Form.Item<FieldType> required label='Service' name="service"
+                            rules={[{ required: true, message: 'Please select a service.' }]}
+                        >
+                            <Select>
+                                <Select.Option value='demo'>Demo</Select.Option>
+                            </Select>
+                        </Form.Item>
+
                         <Form.Item<FieldType> required label='Select a date' name="date" initialValue={firstAvailableDay}
                             rules={[{ required: true, message: 'Please select a date.' }]}
                         >
@@ -98,25 +117,30 @@ function BookAppointment() {
                                 maxDate={firstAvailableDay.add(30, 'day')}
                             />
                         </Form.Item>
-                        <Form.Item<FieldType> required label='Service' name="service"
-                            rules={[{ required: true, message: 'Please select a service.' }]}
-                        >
-                            <Select>
-                                <Select.Option value='demo'>Demo</Select.Option>
-                            </Select>
-                        </Form.Item>
-                        <Form.Item<FieldType> label='Contact email' name="email">
-                            <Input />
-                        </Form.Item>
 
-                        {serviceValue && dateValue && (
+                        {/* serviceValue && */}
+                        {dateValue && (
                             <Form.Item<FieldType> required label='Time Slot' name='time'
                                 rules={[{ required: true, message: 'Please select a time slot.' }]}
                             >
-                                <Input />
+                                <Radio.Group size='large' >
+                                    <Space direction='horizontal' wrap={true} size='middle' align='center' >
+                                        <Radio.Button value={1}>Option A</Radio.Button>
+                                        <Radio.Button value={2}>Option B</Radio.Button>
+                                        <Radio.Button value={3}>Option B</Radio.Button>
+                                        <Radio.Button value={4}>Option B</Radio.Button>
+                                        <Radio.Button value={5}>Option B</Radio.Button>
+                                        <Radio.Button value={6}>Option B</Radio.Button>
+                                        <Radio.Button value={7}>Option B</Radio.Button>
+                                        <Radio.Button value={8}>Option B</Radio.Button>
+                                        <Button type='text'>Next Day...</Button>
+                                    </Space>
+                                </Radio.Group>
                             </Form.Item>
                         )}
-
+                        <Form.Item<FieldType> label='Contact email' name="email">
+                            <Input />
+                        </Form.Item>
                         <Form.Item>
                             <Button disabled={!serviceValue || !dateValue} style={{ marginTop: '25px' }} type='primary' htmlType="submit" size='large'>Submit</Button>
                         </Form.Item>
