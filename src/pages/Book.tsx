@@ -57,6 +57,7 @@ function BookAppointment() {
     // const firstAvailableDay = now.set('hour', 10)
 
 
+    // TODO: This don't work
     const incrementDate = () => {
         setDateAdd(dateAdd + 1)
     }
