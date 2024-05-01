@@ -1,5 +1,5 @@
 
-import { Button, DatePicker, Flex, Form, Input, Radio, Select, Space, Typography } from 'antd';
+import { Badge, Button, DatePicker, Flex, Form, Input, Radio, Select, Space, Typography } from 'antd';
 import type { FormProps } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -21,6 +21,11 @@ type FieldType = {
 //     price: string,
 // }
 
+interface TimeSlot {
+    time: dayjs.Dayjs;
+    booked: boolean;
+}
+
 const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
     console.log('Success:', values);
 };
@@ -34,7 +39,8 @@ function BookAppointment() {
 
     const [form] = Form.useForm<FieldType>();
     // const [serviceSelected, setServiceSelected] = React.useState(false);
-    const [timeSlots, setTimeSlots] = React.useState<dayjs.Dayjs[]>([])
+    const [timeSlots, setTimeSlots] = React.useState<TimeSlot[]>([])
+    const bookedTimes = React.useRef<Map<string, bool>>(new Map())
 
 
     const dateValue = Form.useWatch('date', form)
@@ -42,26 +48,29 @@ function BookAppointment() {
     const emailValue = Form.useWatch('email', form)
 
     const now = dayjs();
-    const firstAvailableDay = now.hour() > 17 ? now.set('hour', 9).set('minute', 0).set('second', 0).add(1, 'day') : now
-    // const firstAvailableDay = now 
+    const firstAvailableDay = now.hour() > 17 ? now.set('hour', 0).set('minute', 0).set('second', 0).add(1, 'day') : now
+    // const firstAvailableDay = now.set('hour', 10)
 
 
     useEffect(() => {
-
-
-
         const fetchAvailableTimeslots = async () => {
             if (dateValue === undefined) {
                 console.log('dateValue is undefined')
                 return;
             }
-            console.log('dateValue:', dateValue.format())
+            // console.log('dateValue:', dateValue.format())
             try {
+
+                let currentDate = dateValue
+
+                if (dateValue.isSame(now, 'day')) {
+                    currentDate = currentDate.set('hour', now.hour())
+                }
 
                 // Grab the dif between the selected time and the start time of the day. Subtract that from our available hours.
                 const availableHours = 8
                 const todayStartTime = dayjs(dateValue).set('hour', 9).set('minute', 0).set('second', 0)
-                const dateValueDifFromStartTime = dateValue.diff(todayStartTime, 'hour')
+                const dateValueDifFromStartTime = currentDate.diff(todayStartTime, 'hour')
                 let hoursLeft = availableHours - dateValueDifFromStartTime
 
                 // If our hours left is > 8 or < 0, set to those maximums.
@@ -69,17 +78,37 @@ function BookAppointment() {
                 hoursLeft = hoursLeft < 0 ? 0 : hoursLeft
 
 
-                //console.log('todayStartTime:', todayStartTime.format())
+                // console.log('currentSelectedDate:', currentDate.format())
+                // console.log('todayStartTime:', todayStartTime.format())
                 // console.log('todayEndTime:', todayEndTime.format())
                 // console.log('dateValueDifFromStartTime:', dateValueDifFromStartTime)
                 // console.log('hours left:', hoursLeft)
                 // console.log('available hours:', availableHours)
 
 
-                const timeslots: dayjs.Dayjs[] = [];
-                for (let i = 0; i < hoursLeft; ++i) {
-                    const date = dateValue.add(i, 'hour')
-                    timeslots.push(date)
+                // Generate timeslots, randomly generate booked days (closer to today more likely).
+                // Persist in memory in a map.
+                // These would normally be stored in a db.
+                // TODO: Grab user booked dates from internal storage?
+                const daysFromToday = dateValue.diff(firstAvailableDay, 'days')
+                const timeslots: TimeSlot[] = [];
+                for (let i = 0; i < 8; ++i) {
+
+                    const timeslot: TimeSlot = {
+                        time: todayStartTime.add(i, 'hour'),
+                        booked: i < 8 - hoursLeft
+                    }
+                    if (bookedTimes.current.has(timeslot.time.format())) {
+                        timeslot.booked = bookedTimes.current.get(timeslot.time.format())
+                    } else {
+                        const number = Math.random() * (100 - (daysFromToday * 2)) + 1
+                        //console.log(number)
+                        if (number > 60) {
+                            timeslot.booked = true
+                        }
+                        bookedTimes.current.set(timeslot.time.format(), timeslot.booked)
+                    }
+                    timeslots.push(timeslot)
                 }
                 setTimeSlots(timeslots)
             } catch (error) {
@@ -124,15 +153,29 @@ function BookAppointment() {
                                 rules={[{ required: true, message: 'Please select a time slot.' }]}
                             >
                                 <Radio.Group size='large' >
-                                    <Space direction='horizontal' wrap={true} size='middle' align='center' >
-                                        <Radio.Button value={1}>Option A</Radio.Button>
+                                    <Space direction='horizontal' wrap={true} size='middle' >
+                                        {timeSlots.map((time, index) => (
+                                            <div>
+                                                {/* {time.booked && (
+  
+                                            )} */}
+                                                {/* <Badge.Ribbon placement='start' text='booked'>
+                                                    <Radio.Button disabled={time.booked} value={time.time}>{time.time.format('hh:mm A')}</Radio.Button>
+                                                </Badge.Ribbon> */}
+                                                <Badge key={'badge-' + index} showZero={time.booked} size='small' count={time.booked ? 'Booked' : 0} offset={[-30, 0]}>
+                                                    <Radio.Button key={'radio-' + index} disabled={time.booked} value={time.time}>{time.time.format('hh:mm A')}</Radio.Button>
+                                                </Badge>
+                                            </div>
+
+                                        ))}
+                                        {/* <Radio.Button value={1}>Option A</Radio.Button>
                                         <Radio.Button value={2}>Option B</Radio.Button>
                                         <Radio.Button value={3}>Option B</Radio.Button>
                                         <Radio.Button value={4}>Option B</Radio.Button>
                                         <Radio.Button value={5}>Option B</Radio.Button>
                                         <Radio.Button value={6}>Option B</Radio.Button>
                                         <Radio.Button value={7}>Option B</Radio.Button>
-                                        <Radio.Button value={8}>Option B</Radio.Button>
+                                        <Radio.Button value={8}>Option B</Radio.Button> */}
                                         <Button type='text'>Next Day...</Button>
                                     </Space>
                                 </Radio.Group>

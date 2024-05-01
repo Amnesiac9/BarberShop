@@ -78,6 +78,7 @@ function App() {
             ColorPicker: { algorithm: true, borderRadius: 10, },
             Typography: { algorithm: true },
             Carousel: { colorBgContainer: colorsAccent[8] },
+            Badge: { colorError: colorsAccent[5] }
         }
     }
 
