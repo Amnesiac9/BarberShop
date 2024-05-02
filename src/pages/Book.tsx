@@ -47,6 +47,7 @@ function BookAppointment() {
 
 
 
+    // TODO: Store the last date and time values so we can use them in the success page.
     const dateValue = Form.useWatch('date', form)
     const serviceValue = Form.useWatch('service', form);
     const timeValue = Form.useWatch('time', form);
@@ -235,11 +236,11 @@ function BookAppointment() {
             {showSuccess && (
                 <Result
                     icon={<SmileOutlined />}
-                    title="Great, we have done all the operations!"
-                    extra={<Button type="primary" onClick={() => {
+                    title={`You are all booked! See you soon!`}
+                    extra={<div> Date: {dateValue?.format()} <br /><br /><Button type="primary" onClick={() => {
                         setShowSuccess(false)
                         //window.location.reload()
-                    }}>Back</Button>}
+                    }}>Back</Button></div>}
                 />
             )}
         </div>
