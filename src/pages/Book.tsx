@@ -1,6 +1,5 @@
 
 import { Badge, Button, DatePicker, Form, Input, Radio, Select, Space } from 'antd';
-import type { DatePickerProps } from 'antd';
 import type { FormProps } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -55,7 +54,7 @@ function BookAppointment() {
 
     const dateValue = Form.useWatch('date', form)
     const serviceValue = Form.useWatch('service', form);
-    const emailValue = Form.useWatch('email', form)
+    //const emailValue = Form.useWatch('email', form)
 
     const now = dayjs();
     const firstAvailableDay = now.hour() > 17 ? now.set('hour', 0).set('minute', 0).set('second', 0).add(1, 'day') : now
@@ -187,18 +186,10 @@ function BookAppointment() {
                     <Form form={form} size='large' layout='horizontal' style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: 600 }}
                         onFinish={onFinish} onFinishFailed={onFinishFailed}
                     >
-                        <Form.Item<FieldType> required label='Service' name="service"
-                            rules={[{ required: true, message: 'Please select a service.' }]}
-                        >
-                            <Select>
-                                <Select.Option value='demo'>Demo</Select.Option>
-                            </Select>
-                        </Form.Item>
-
                         <Form.Item<FieldType> required label='Select a date' name="date" initialValue={firstAvailableDay}
                             rules={[{ required: true, message: 'Please select a date.' }]}
                         >
-                            <DatePicker allowClear={false} open={openPicker == true ? true : undefined} d //defaultOpen 
+                            <DatePicker allowClear={false} open={openPicker == true ? true : undefined} //defaultOpen 
                                 minDate={firstAvailableDay}
                                 maxDate={firstAvailableDay.add(30, 'day')}
                             />
@@ -221,6 +212,13 @@ function BookAppointment() {
                                 </Radio.Group>
                             </Form.Item>
                         )}
+                        <Form.Item<FieldType> required label='Service' name="service"
+                            rules={[{ required: true, message: 'Please select a service.' }]}
+                        >
+                            <Select>
+                                <Select.Option value='demo'>Demo</Select.Option>
+                            </Select>
+                        </Form.Item>
                         <Form.Item<FieldType> label='Contact email' name="email">
                             <Input />
                         </Form.Item>
@@ -230,12 +228,6 @@ function BookAppointment() {
                     </Form>
                 </div>
             </div>
-            {/* <Typography>
-                <pre>Email Value: {emailValue}</pre>
-                <pre>Service Value: {serviceValue || ''}</pre>
-                <pre>Date Value: {dateValue?.format() ?? ''}</pre>
-                <pre>Available Times: {timeSlots.length}</pre>
-            </Typography> */}
         </div>
 
     )
