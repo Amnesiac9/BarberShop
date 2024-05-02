@@ -40,21 +40,13 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
 //     console.log(date, dateString);
 //   };
 
-type DateComponent = Required<NonNullable<DatePickerProps<dayjs.Dayjs>['components']>>['date'];
-type GetProps<T> = T extends React.ComponentType<infer P> ? P : never;
-
-const MyDatePanel = (props: GetProps<DateComponent>) => {
-    console.log(props)
-    return (null)
-}
 
 
 function BookAppointment() {
 
     const [form] = Form.useForm<FieldType>();
     // const [serviceSelected, setServiceSelected] = React.useState(false);
-    const [hidePicker, setHidePicker] = React.useState(true)
-    const [hidePanel, setHidePanel] = React.useState(true)
+    const [openPicker, setOpenPicker] = React.useState(false)
     // const openPickerRef = React.useRef<boolean>(true)
     const [timeSlots, setTimeSlots] = React.useState<TimeSlot[]>([])
     const bookedTimes = React.useRef<Map<string, boolean>>(new Map())
@@ -86,7 +78,7 @@ function BookAppointment() {
 
         const antPickerCells = document.querySelectorAll(`.ant-picker-cell`) as NodeListOf<HTMLElement> //td[title="${date}"]
         if (antPickerCells.length === 0) {
-            //setHidePicker(true)
+            setOpenPicker(true)
             console.log("antPickerCells is 0 length. Opening picker to load in cells.")
             return;
         }
@@ -103,24 +95,14 @@ function BookAppointment() {
 
 
 
-    // useEffect(() => {
-    //     if (openPicker === true) {
-    //         setOpenPicker(false)
-    //     } else {
-    //         incrementDate()
-    //     }
-
-    // }, [openPicker])
-
     useEffect(() => {
-        setHidePicker(false);
-        // const delay = setTimeout(() => {
-        //     setHidePicker(false);
-        // }, 0); // Adjust the delay time as needed (in milliseconds)
+        if (openPicker === true) {
+            setOpenPicker(false)
+        } else {
+            incrementDate()
+        }
 
-        // // Cleanup function to clear the timeout
-        // return () => clearTimeout(delay);
-    }, []);
+    }, [openPicker])
 
 
 
@@ -214,12 +196,9 @@ function BookAppointment() {
                         <Form.Item<FieldType> required label='Select a date' name="date" initialValue={firstAvailableDay}
                             rules={[{ required: true, message: 'Please select a date.' }]}
                         >
-                            <DatePicker allowClear={false} open={hidePicker ? true : undefined} onOpenChange={() => setHidePanel(false)} //defaultOpen 
+                            <DatePicker allowClear={false} open={openPicker == true ? true : undefined} d //defaultOpen 
                                 minDate={firstAvailableDay}
                                 maxDate={firstAvailableDay.add(30, 'day')}
-                                components={hidePanel ? {
-                                    date: (MyDatePanel)
-                                } : undefined}
                             />
                         </Form.Item>
 
