@@ -43,9 +43,10 @@ function BookAppointment() {
 
     const [form] = Form.useForm<FieldType>();
     // const [serviceSelected, setServiceSelected] = React.useState(false);
+    const [openPicker, setOpenPicker] = React.useState(true)
     const [timeSlots, setTimeSlots] = React.useState<TimeSlot[]>([])
     const bookedTimes = React.useRef<Map<string, boolean>>(new Map())
-    const [dateAdd, setDateAdd] = React.useState(0)
+
 
 
     const dateValue = Form.useWatch('date', form)
@@ -54,16 +55,69 @@ function BookAppointment() {
 
     const now = dayjs();
     const firstAvailableDay = now.hour() > 17 ? now.set('hour', 0).set('minute', 0).set('second', 0).add(1, 'day') : now
+    //const [customDateValue, setCustomDateValue] = React.useState(firstAvailableDay)
     // const firstAvailableDay = now.set('hour', 10)
 
 
-    // TODO: This don't work
+    // This was pretty annoying to write, same problem as with Ant Design's menu component,
+    // they don't expose an obvious way to trigger then click event or effect the value.
+    // This uses a querySelectorAll (Since the date buttons in the date picker are hidden)
+    // and then loops over them to find the next day based on the title.
     const incrementDate = () => {
-        setDateAdd(dateAdd + 1)
+        if (dateValue === undefined) {
+            console.log('dateValue undefined')
+            return
+        }
+
+
+
+        const nextDay = dateValue.add(1, 'day').format('YYYY-MM-DD')
+        console.log('datequery:', nextDay)
+
+        const antPickerCells = document.querySelectorAll(`.ant-picker-cell`) as NodeListOf<HTMLElement> //td[title="${date}"]
+        if (antPickerCells === null) {
+            console.error("antPickerCells is null.")
+            return;
+        }
+
+        antPickerCells.forEach((e: HTMLElement) => {
+            if (e.title === nextDay) {
+                e.click()
+                return
+            }
+        })
     }
+
+    // useEffect(() => {
+    //     // const datePicker = document.getElementById('date') as HTMLInputElement
+    //     // if (datePicker === null) {
+    //     //     console.error('datePicker is null.')
+    //     //     return
+    //     // }
+
+    //     // datePicker.click()
+
+    //     // // Close the DatePicker after a short delay
+    //     // const closeDatePicker = setTimeout(() => {
+    //     //     const overlayContainer = document.querySelector('ant-divider') as HTMLElement;
+    //     //     if (!overlayContainer) {
+    //     //         console.log('overlayContainer is null')
+    //     //         return
+    //     //     }
+    //     //     overlayContainer.click()
+    //     // }, 2000); // Adjust the delay as needed
+
+    //     // // Cleanup function to clear the timeout
+    //     // return () => clearTimeout(closeDatePicker);
+    //     setOpenPicker(false)
+
+
+    // }, [])
+
 
 
     useEffect(() => {
+
         const fetchAvailableTimeslots = async () => {
             if (dateValue === undefined) {
                 // console.log('dateValue is undefined')
@@ -135,7 +189,7 @@ function BookAppointment() {
 
     return (
         <div>
-            <h2>Book Appointment</h2>
+            <h2 id='bookapp'>Book Appointment</h2>
             <div style={{ alignContent: 'center', alignItems: 'center', justifyContent: 'center', justifyItems: 'center', display: 'flex' }}>
                 <div style={{ width: '85%', marginLeft: 'auto', marginRight: 'auto' }}>
                     <Form form={form} size='large' layout='horizontal' style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: 600 }}
@@ -152,7 +206,7 @@ function BookAppointment() {
                         <Form.Item<FieldType> required label='Select a date' name="date" initialValue={firstAvailableDay}
                             rules={[{ required: true, message: 'Please select a date.' }]}
                         >
-                            <DatePicker
+                            <DatePicker allowClear={false} //  open={openPicker == true ? true : undefined} 
                                 minDate={firstAvailableDay}
                                 maxDate={firstAvailableDay.add(30, 'day')}
                             />
@@ -170,8 +224,7 @@ function BookAppointment() {
                                                 <Radio.Button key={'radio-' + index} disabled={time.booked} value={time.time}>{time.time.format('hh:mm A')}</Radio.Button>
                                             </Badge>
                                         ))}
-                                        {/* //TODO: Fix this button. Maybe paginate instead... */}
-                                        <Button onClick={() => incrementDate()} type='text'>Next Day...</Button>
+                                        <Button onClick={incrementDate} type='text'>Next Day...</Button>
                                     </Space>
                                 </Radio.Group>
                             </Form.Item>
