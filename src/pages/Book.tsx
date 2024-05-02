@@ -1,5 +1,6 @@
 
-import { Badge, Button, DatePicker, Form, Input, Radio, Select, Space } from 'antd';
+import { Badge, Button, DatePicker, Form, Input, Radio, Result, Select, Space } from 'antd';
+import { SmileOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -7,7 +8,6 @@ import React, { useEffect } from 'react';
 
 dayjs.extend(customParseFormat);
 
-// const dateFormat = 'YYYY-MM-DD';
 
 type FieldType = {
     email?: string;
@@ -26,34 +26,30 @@ interface TimeSlot {
     booked: boolean;
 }
 
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-    console.log('Success:', values);
-};
+
 
 const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
 
 
-// const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-//     console.log(date, dateString);
-//   };
-
 
 
 function BookAppointment() {
 
     const [form] = Form.useForm<FieldType>();
+    const [showSuccess, setShowSuccess] = React.useState(false);
     // const [serviceSelected, setServiceSelected] = React.useState(false);
-    const [openPicker, setOpenPicker] = React.useState(false)
+    const [openPicker, setOpenPicker] = React.useState(false);
     // const openPickerRef = React.useRef<boolean>(true)
-    const [timeSlots, setTimeSlots] = React.useState<TimeSlot[]>([])
-    const bookedTimes = React.useRef<Map<string, boolean>>(new Map())
+    const [timeSlots, setTimeSlots] = React.useState<TimeSlot[]>([]);
+    const bookedTimes = React.useRef<Map<string, boolean>>(new Map());
 
 
 
     const dateValue = Form.useWatch('date', form)
     const serviceValue = Form.useWatch('service', form);
+    const timeValue = Form.useWatch('time', form);
     //const emailValue = Form.useWatch('email', form)
 
     const now = dayjs();
@@ -61,6 +57,11 @@ function BookAppointment() {
     //const [customDateValue, setCustomDateValue] = React.useState(firstAvailableDay)
     // const firstAvailableDay = now.set('hour', 10)
 
+
+    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+        console.log('Success:', values);
+        setShowSuccess(true);
+    };
 
     // This was pretty annoying, same problem as with Ant Design's menu component,
     // they don't expose an obvious way to trigger then click event or effect the value and trigger the updates that happen from that change.
@@ -181,55 +182,67 @@ function BookAppointment() {
     return (
         <div>
             <h2 id='bookapp'>Book Appointment</h2>
-            <div style={{ alignContent: 'center', alignItems: 'center', justifyContent: 'center', justifyItems: 'center', display: 'flex' }}>
-                <div style={{ width: '85%', marginLeft: 'auto', marginRight: 'auto' }}>
-                    <Form form={form} size='large' layout='horizontal' style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: 600 }}
-                        onFinish={onFinish} onFinishFailed={onFinishFailed}
-                    >
-                        <Form.Item<FieldType> required label='Select a date' name="date" initialValue={firstAvailableDay}
-                            rules={[{ required: true, message: 'Please select a date.' }]}
+            {!showSuccess && (
+                <div style={{ alignContent: 'center', alignItems: 'center', justifyContent: 'center', justifyItems: 'center', display: 'flex' }}>
+                    <div style={{ width: '85%', marginLeft: 'auto', marginRight: 'auto' }}>
+                        <Form form={form} size='large' layout='horizontal' style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: 600 }}
+                            onFinish={onFinish} onFinishFailed={onFinishFailed}
                         >
-                            <DatePicker allowClear={false} open={openPicker == true ? true : undefined} //defaultOpen 
-                                minDate={firstAvailableDay}
-                                maxDate={firstAvailableDay.add(30, 'day')}
-                            />
-                        </Form.Item>
-
-                        {/* serviceValue && */}
-                        {dateValue && (
-                            <Form.Item<FieldType> required label='Time Slot' name='time'
-                                rules={[{ required: true, message: 'Please select a time slot.' }]}
+                            <Form.Item<FieldType> required label='Select a date' name="date" initialValue={firstAvailableDay}
+                                rules={[{ required: true, message: 'Please select a date.' }]}
                             >
-                                <Radio.Group size='large' >
-                                    <Space key={'space'} direction='horizontal' wrap={true} size='middle' >
-                                        {timeSlots.map((time, index) => (
-                                            <Badge key={'badge-' + index} showZero={time.booked} size='small' count={time.booked ? 'Booked' : 0} offset={[-30, 0]}>
-                                                <Radio.Button key={'radio-' + index} disabled={time.booked} value={time.time}>{time.time.format('hh:mm A')}</Radio.Button>
-                                            </Badge>
-                                        ))}
-                                        <Button onClick={incrementDate} type='text'>Next Day...</Button>
-                                    </Space>
-                                </Radio.Group>
+                                <DatePicker allowClear={false} open={openPicker == true ? true : undefined} //defaultOpen 
+                                    minDate={firstAvailableDay}
+                                    maxDate={firstAvailableDay.add(30, 'day')}
+                                />
                             </Form.Item>
-                        )}
-                        <Form.Item<FieldType> required label='Service' name="service"
-                            rules={[{ required: true, message: 'Please select a service.' }]}
-                        >
-                            <Select>
-                                <Select.Option value='demo'>Demo</Select.Option>
-                            </Select>
-                        </Form.Item>
-                        <Form.Item<FieldType> label='Contact email' name="email">
-                            <Input />
-                        </Form.Item>
-                        <Form.Item>
-                            <Button disabled={!serviceValue || !dateValue} style={{ marginTop: '25px' }} type='primary' htmlType="submit" size='large'>Submit</Button>
-                        </Form.Item>
-                    </Form>
-                </div>
-            </div>
-        </div>
 
+                            //TODO: This will keep the selected date value even after choosing a different date.
+                            {dateValue && (
+                                <Form.Item<FieldType> required label='Time Slot' name='time'
+                                    rules={[{ required: true, message: 'Please select a time slot.' }]}
+                                >
+                                    <Radio.Group size='large' >
+                                        <Space key={'space'} direction='horizontal' wrap={true} size='middle' >
+                                            {timeSlots.map((time, index) => (
+                                                <Badge key={'badge-' + index} showZero={time.booked} size='small' count={time.booked ? 'Booked' : 0} offset={[-30, 0]}>
+                                                    <Radio.Button key={'radio-' + index} disabled={time.booked} value={time.time}>{time.time.format('hh:mm A')}</Radio.Button>
+                                                </Badge>
+                                            ))}
+                                            <Button onClick={incrementDate} type='text'>Next Day...</Button>
+                                        </Space>
+                                    </Radio.Group>
+                                </Form.Item>
+                            )}
+                            <Form.Item<FieldType> required label='Service' name="service"
+                                rules={[{ required: true, message: 'Please select a service.' }]}
+                            >
+                                <Select>
+                                    <Select.Option value='demo'>Demo</Select.Option>
+                                </Select>
+                            </Form.Item>
+                            <Form.Item<FieldType> label='Contact email' name="email">
+                                <Input />
+                            </Form.Item>
+                            <Form.Item>
+                                <Button disabled={!serviceValue || !dateValue || !timeValue} style={{ marginTop: '25px' }} type='primary' htmlType="submit" size='large'>Submit</Button>
+                            </Form.Item>
+                        </Form>
+                    </div>
+                </div>
+
+            )}
+            {showSuccess && (
+                <Result
+                    icon={<SmileOutlined />}
+                    title="Great, we have done all the operations!"
+                    extra={<Button type="primary" onClick={() => {
+                        setShowSuccess(false)
+                        //window.location.reload()
+                    }}>Back</Button>}
+                />
+            )}
+        </div>
     )
 }
 
