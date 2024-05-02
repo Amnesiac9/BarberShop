@@ -1,5 +1,6 @@
 
-import { Badge, Button, DatePicker, Flex, Form, Input, Radio, Select, Space, Typography } from 'antd';
+import { Badge, Button, DatePicker, Form, Input, Radio, Select, Space } from 'antd';
+import type { DatePickerProps } from 'antd';
 import type { FormProps } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -35,7 +36,9 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
 };
 
 
-
+// const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+//     console.log(date, dateString);
+//   };
 
 
 
@@ -43,7 +46,8 @@ function BookAppointment() {
 
     const [form] = Form.useForm<FieldType>();
     // const [serviceSelected, setServiceSelected] = React.useState(false);
-    const [openPicker, setOpenPicker] = React.useState(true)
+    const [openPicker, setOpenPicker] = React.useState(false)
+    // const openPickerRef = React.useRef<boolean>(true)
     const [timeSlots, setTimeSlots] = React.useState<TimeSlot[]>([])
     const bookedTimes = React.useRef<Map<string, boolean>>(new Map())
 
@@ -59,8 +63,8 @@ function BookAppointment() {
     // const firstAvailableDay = now.set('hour', 10)
 
 
-    // This was pretty annoying to write, same problem as with Ant Design's menu component,
-    // they don't expose an obvious way to trigger then click event or effect the value.
+    // This was pretty annoying, same problem as with Ant Design's menu component,
+    // they don't expose an obvious way to trigger then click event or effect the value and trigger the updates that happen from that change.
     // This uses a querySelectorAll (Since the date buttons in the date picker are hidden)
     // and then loops over them to find the next day based on the title.
     const incrementDate = () => {
@@ -69,14 +73,13 @@ function BookAppointment() {
             return
         }
 
-
-
         const nextDay = dateValue.add(1, 'day').format('YYYY-MM-DD')
         console.log('datequery:', nextDay)
 
         const antPickerCells = document.querySelectorAll(`.ant-picker-cell`) as NodeListOf<HTMLElement> //td[title="${date}"]
-        if (antPickerCells === null) {
-            console.error("antPickerCells is null.")
+        if (antPickerCells.length === 0) {
+            setOpenPicker(true)
+            console.log("antPickerCells is 0 length. Opening picker to load in cells.")
             return;
         }
 
@@ -86,33 +89,20 @@ function BookAppointment() {
                 return
             }
         })
+
     }
 
-    // useEffect(() => {
-    //     // const datePicker = document.getElementById('date') as HTMLInputElement
-    //     // if (datePicker === null) {
-    //     //     console.error('datePicker is null.')
-    //     //     return
-    //     // }
-
-    //     // datePicker.click()
-
-    //     // // Close the DatePicker after a short delay
-    //     // const closeDatePicker = setTimeout(() => {
-    //     //     const overlayContainer = document.querySelector('ant-divider') as HTMLElement;
-    //     //     if (!overlayContainer) {
-    //     //         console.log('overlayContainer is null')
-    //     //         return
-    //     //     }
-    //     //     overlayContainer.click()
-    //     // }, 2000); // Adjust the delay as needed
-
-    //     // // Cleanup function to clear the timeout
-    //     // return () => clearTimeout(closeDatePicker);
-    //     setOpenPicker(false)
 
 
-    // }, [])
+
+    useEffect(() => {
+        if (openPicker === true) {
+            setOpenPicker(false)
+        } else {
+            incrementDate()
+        }
+
+    }, [openPicker])
 
 
 
@@ -206,7 +196,7 @@ function BookAppointment() {
                         <Form.Item<FieldType> required label='Select a date' name="date" initialValue={firstAvailableDay}
                             rules={[{ required: true, message: 'Please select a date.' }]}
                         >
-                            <DatePicker allowClear={false} //  open={openPicker == true ? true : undefined} 
+                            <DatePicker allowClear={false} open={openPicker == true ? true : undefined} d //defaultOpen 
                                 minDate={firstAvailableDay}
                                 maxDate={firstAvailableDay.add(30, 'day')}
                             />
