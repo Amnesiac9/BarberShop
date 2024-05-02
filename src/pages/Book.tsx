@@ -67,6 +67,8 @@ function BookAppointment() {
     // they don't expose an obvious way to trigger then click event or effect the value and trigger the updates that happen from that change.
     // This uses a querySelectorAll (Since the date buttons in the date picker are hidden)
     // and then loops over them to find the next day based on the title.
+    // If it can't find it, it's because the date picker hasn't loaded in thos elements, so instead we load them
+    // this is kind of hacky and I don't like it since it pops up on screen.
     const incrementDate = () => {
         if (dateValue === undefined) {
             console.log('dateValue undefined')
