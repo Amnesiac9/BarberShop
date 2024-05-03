@@ -1,7 +1,20 @@
+import { FacebookOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 
 function Services() {
     return (
-        <div>services</div>
+        //TODO: Loop through services and show a nice table
+        <div>services
+
+            <div>
+
+                <Button type='link'>
+                    Check us out on Facebook!
+                    <FacebookOutlined />
+                </Button>
+            </div>
+        </div>
+
     )
 }
 

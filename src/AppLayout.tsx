@@ -1,6 +1,7 @@
 import React from "react";
 import type { MenuProps } from 'antd';
-import { Layout } from "antd";
+import { LinkedinFilled } from '@ant-design/icons';
+import { Button, Layout } from "antd";
 import Homepage from './pages/Home'
 import CustomHeader from "./components/CusomHeader";
 import Container from "./components-styled/Container.styled";
@@ -85,7 +86,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                 </Content>
                 <Divider $maxWidth={55} $marginBottom='0px' />
                 <Footer style={{ textAlign: 'center', fontSize: 14 }}>
-                    Lucky Cuts Barbershop ©{new Date().getFullYear()} Created by John Moreau CSS247
+                    Lucky Cuts Barbershop ©{new Date().getFullYear()} Created by John Moreau CSS247<Button href='https://www.linkedin.com/in/john-moreau-83b996b4' target='_blank' size='small' type='link'><LinkedinFilled /></Button>
                 </Footer>
             </Layout>
 
