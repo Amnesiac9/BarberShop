@@ -6,20 +6,21 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import React, { useEffect } from 'react';
 
+import Divider from '../components-styled/Divider.styled';
+import InfoCard from '../components-styled/InfoCard.styled';
+import { Service, fetchServices } from '../utils/fetchServices';
+
 dayjs.extend(customParseFormat);
 
 
 type FieldType = {
+    name?: string;
     email?: string;
     date?: dayjs.Dayjs;
-    service?: string;
+    service?: Service;
     time?: string;
 };
 
-// interface Service {
-//     name: string,
-//     price: string,
-// }
 
 interface TimeSlot {
     time: dayjs.Dayjs;
@@ -35,15 +36,16 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
 
 
 
-function BookAppointment() {
+function BookAppointment(props: { remount: () => void }) {
 
     const [form] = Form.useForm<FieldType>();
     const [showSuccess, setShowSuccess] = React.useState(false);
-    // const [serviceSelected, setServiceSelected] = React.useState(false);
     const [openPicker, setOpenPicker] = React.useState(false);
-    // const openPickerRef = React.useRef<boolean>(true)
+    const [services, setServices] = React.useState<Service[]>([])
+    const [selectedService, setSelectedService] = React.useState<Service>()
     const [timeSlots, setTimeSlots] = React.useState<TimeSlot[]>([]);
     const bookedTimes = React.useRef<Map<string, boolean>>(new Map());
+    const booking = React.useRef<FieldType>();
 
 
 
@@ -51,6 +53,7 @@ function BookAppointment() {
     const dateValue = Form.useWatch('date', form)
     const serviceValue = Form.useWatch('service', form);
     const timeValue = Form.useWatch('time', form);
+    const nameValue = Form.useWatch('name', form)
     //const emailValue = Form.useWatch('email', form)
 
     const now = dayjs();
@@ -61,6 +64,7 @@ function BookAppointment() {
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         console.log('Success:', values);
+        booking.current = values
         setShowSuccess(true);
     };
 
@@ -95,7 +99,10 @@ function BookAppointment() {
 
     }
 
-
+    useEffect(() => {
+        // Update our services from a JSON file.
+        fetchServices(setServices)
+    }, [])
 
 
     useEffect(() => {
@@ -105,18 +112,17 @@ function BookAppointment() {
             incrementDate()
         }
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [openPicker])
 
 
 
     useEffect(() => {
-
         const fetchAvailableTimeslots = async () => {
             if (dateValue === undefined) {
                 // console.log('dateValue is undefined')
                 return;
             }
-            // console.log('dateValue:', dateValue.format())
             try {
 
                 let currentDate = dateValue
@@ -198,7 +204,6 @@ function BookAppointment() {
                                 />
                             </Form.Item>
 
-                            //TODO: This will keep the selected date value even after choosing a different date.
                             {dateValue && (
                                 <Form.Item<FieldType> required label='Time Slot' name='time'
                                     rules={[{ required: true, message: 'Please select a time slot.' }]}
@@ -207,7 +212,7 @@ function BookAppointment() {
                                         <Space key={'space'} direction='horizontal' wrap={true} size='middle' >
                                             {timeSlots.map((time, index) => (
                                                 <Badge key={'badge-' + index} showZero={time.booked} size='small' count={time.booked ? 'Booked' : 0} offset={[-30, 0]}>
-                                                    <Radio.Button key={'radio-' + index} disabled={time.booked} value={time.time}>{time.time.format('hh:mm A')}</Radio.Button>
+                                                    <Radio.Button key={'radio-' + index} disabled={time.booked} value={time.time.format('hh:mm A')}>{time.time.format('hh:mm A')}</Radio.Button>
                                                 </Badge>
                                             ))}
                                             <Button onClick={incrementDate} type='text'>Next Day...</Button>
@@ -218,15 +223,44 @@ function BookAppointment() {
                             <Form.Item<FieldType> required label='Service' name="service"
                                 rules={[{ required: true, message: 'Please select a service.' }]}
                             >
-                                <Select>
-                                    <Select.Option value='demo'>Demo</Select.Option>
+                                <Select onChange={(value: string) => {
+                                    console.log('value', value)
+                                    setSelectedService(services[parseInt(value.split('$')[1])])
+                                    console.log('services length', services.length)
+                                }}>
+                                    {services.map((service, index) => (
+                                        <Select.Option key={'service-' + index} value={service.name + '$' + index}>${service.price} - {service.name}</Select.Option>
+                                    ))}
+                                    {/* <Select.Option value='demo'>Demo</Select.Option> */}
                                 </Select>
                             </Form.Item>
-                            <Form.Item<FieldType> label='Contact email' name="email">
+                            <Form.Item<FieldType> required label='Name' name="name"
+                                rules={[{ required: true, message: 'Please enter your name.' }]}
+                            >
                                 <Input />
                             </Form.Item>
+                            <Form.Item<FieldType> label='Email' name="email"
+                                rules={[{ type: 'email' }]}>
+                                <Input />
+                            </Form.Item>
+                            <Divider />
+                            {serviceValue && (
+                                <InfoCard $size='large'>
+                                    <p>
+                                        {selectedService?.name}
+                                    </p>
+                                    <p><strong>${selectedService?.price}</strong></p>
+                                    <p>{dateValue?.format('DD/MM/YYYY')} {timeValue ? `@ ${timeValue}` : ''}</p>
+                                </InfoCard>
+                            )}
+                            <Divider />
                             <Form.Item>
-                                <Button disabled={!serviceValue || !dateValue || !timeValue} style={{ marginTop: '25px' }} type='primary' htmlType="submit" size='large'>Submit</Button>
+                                <Button disabled={!serviceValue || !dateValue || !timeValue || !nameValue}
+                                    style={{ marginTop: '25px' }}
+                                    type='primary'
+                                    htmlType="submit"
+                                    size='large'>Book!
+                                </Button>
                             </Form.Item>
                         </Form>
                     </div>
@@ -237,10 +271,23 @@ function BookAppointment() {
                 <Result
                     icon={<SmileOutlined />}
                     title={`You are all booked! See you soon!`}
-                    extra={<div> Date: {dateValue?.format()} <br /><br /><Button type="primary" onClick={() => {
-                        setShowSuccess(false)
-                        //window.location.reload()
-                    }}>Back</Button></div>}
+                    extra={
+                        <div>
+                            <InfoCard $align='left'>
+                                <p>Service: {booking.current?.service?.split('$')[0]}</p>
+
+                                <p>Price: ${booking.current?.service?.split('$')[1]}</p>
+                                <p>Date: {booking.current?.date?.format('DD/MM/YYYY')} {booking.current?.time ? `@ ${booking.current?.time}` : ''}</p>
+                            </InfoCard>
+                            <br /><br />
+
+                            <Button type="primary" onClick={() => {
+                                setShowSuccess(false)
+                                props.remount()
+                                //window.location.reload()
+                            }}>Back</Button>
+                        </div>
+                    }
                 />
             )}
         </div>

@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const InfoCard = styled.div < { $size?: string, $flexDirection?: string, $noShadow?: boolean, $nowrap?: boolean } >`
+const InfoCard = styled.div < { $size?: string, $flexDirection?: string, $noShadow?: boolean, $nowrap?: boolean, $align?: string } >`
     display: flex;
     flex-direction: column;
     margin: 0px auto 25px auto;
@@ -34,10 +34,29 @@ const InfoCard = styled.div < { $size?: string, $flexDirection?: string, $noShad
     ${(props) => {
         return props.$noShadow ? css`` : css`
             box-shadow: 0 0 8px ${({ theme }) => theme.token.colorPrimary};
-            &:hover {
+            /* &:hover {
                 box-shadow: 0 0 8px ${({ theme }) => theme.token.colorPrimaryHover};
-            }
+            } */
          `
+    }}
+
+       
+${(props) => {
+        switch (props.$align) {
+            case 'left':
+                return css`
+            align-items: left;
+            align-content: left;
+            text-align: left;
+            `
+            case 'right':
+                return css`
+            align-items: right;
+            align-content: right;
+            text-align: right;
+            `
+
+        }
     }}
 
 

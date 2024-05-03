@@ -1,0 +1,44 @@
+{
+    "services": [
+      {
+        "name": "Men's Haircut & Style",
+        "price": 25.00
+      },
+      {
+        "name": "Men's Haircut & Barbershop Shave Combo",
+        "price": 35.00
+      },
+      {
+        "name": "Hot Towel Barbershop Shave",
+        "price": 25.00
+      },
+      {
+        "name": "Scissor Cut",
+        "price": 10.00
+      },
+      {
+        "name": "Beard Trim",
+        "price": 10.00
+      },
+      {
+        "name": "Buzz Cut",
+        "price": 10.00
+      },
+      {
+        "name": "College Student's Haircut (Must have ID)",
+        "price": 15.00
+      },
+      {
+        "name": "Children's Haircut (Ages 9 and under)",
+        "price": 15.00
+      },
+      {
+        "name": "Senior (65+) Haircut",
+        "price": 10.00
+      },
+      {
+        "name": "VIP Service (Haircut, Style, Hot Towel Shave, Face Mask, Fragrance & shot of top shelf kentucky burbon - Must show ID)",
+        "price": 10.00
+      }
+    ]
+  }

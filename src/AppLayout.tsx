@@ -8,6 +8,7 @@ import Menu from './components-styled/Menu.styled'
 import Gallery from "./pages/Gallery";
 import Divider from "./components-styled/Divider.styled";
 import BookAppointment from "./pages/Book";
+import AboutPage from "./pages/About";
 
 const { Content, Footer } = Layout
 
@@ -44,6 +45,13 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
         setPath(e.key);
     };
 
+    const [key, setKey] = React.useState(0);
+
+    const remount = () => {
+        // Incrementing key value to force re-mount
+        setKey(prevKey => prevKey + 1);
+    };
+
     // This doesn't feel great, Ant Design made passing down a func to update the path unintuitive.
     // I tried just passing down setPath and setting that, and the screen updates, but the menu indicator doesn't change.
     // If there's a better way, please let me know!
@@ -71,10 +79,11 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                     <Container>
                         {path == '/home' && (<Homepage updatePath={clickMenuItem} />)}
                         {path == '/gallery' && (<Gallery />)}
-                        {path == '/book' && (<BookAppointment />)}
-                        {path == '/about' && (<p>about</p>)}
+                        {path == '/book' && (<BookAppointment key={key} remount={remount} />)}
+                        {path == '/about' && (<AboutPage />)}
                     </Container>
                 </Content>
+                <Divider $maxWidth={55} $marginBottom='0px' />
                 <Footer style={{ textAlign: 'center', fontSize: 14 }}>
                     Lucky Cuts Barbershop ©{new Date().getFullYear()} Created by John Moreau CSS247
                 </Footer>
