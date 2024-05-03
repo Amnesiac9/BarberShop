@@ -17,7 +17,7 @@ type FieldType = {
     name?: string;
     email?: string;
     date?: dayjs.Dayjs;
-    service?: Service;
+    service?: string;
     time?: string;
 };
 
@@ -65,6 +65,7 @@ function BookAppointment(props: { remount: () => void }) {
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         console.log('Success:', values);
         booking.current = values
+        booking.current.service = selectedService?.name + '$' + selectedService?.price
         setShowSuccess(true);
     };
 
@@ -273,15 +274,17 @@ function BookAppointment(props: { remount: () => void }) {
                     title={`You are all booked! See you soon!`}
                     extra={
                         <div>
+                            <Divider />
+                            <h5>Details</h5>
                             <InfoCard $align='left'>
-                                <p>Service: {booking.current?.service?.split('$')[0]}</p>
 
-                                <p>Price: ${booking.current?.service?.split('$')[1]}</p>
-                                <p>Date: {booking.current?.date?.format('DD/MM/YYYY')} {booking.current?.time ? `@ ${booking.current?.time}` : ''}</p>
+                                <p><strong>Service: </strong>{booking.current?.service?.split('$')[0]}</p>
+                                <p><strong>Price:</strong> ${booking.current?.service?.split('$')[1]}</p>
+                                <p><strong>Date:</strong> {booking.current?.date?.format('DD/MM/YYYY')} {booking.current?.time ? `@ ${booking.current?.time}` : ''}</p>
+                                <p><strong>Location:</strong> 42 West Wallaby Way, Sydney, AU </p>
                             </InfoCard>
-                            <br /><br />
-
-                            <Button type="primary" onClick={() => {
+                            <Divider />
+                            <Button size='large' type="primary" onClick={() => {
                                 setShowSuccess(false)
                                 props.remount()
                                 //window.location.reload()
