@@ -21,7 +21,9 @@ function Homepage(props: { updatePath: (key: string) => void }) {
                 <h1>"Remarkable Precision and Expertise"</h1>
                 <p>Experience a true barbershop shave and haircut.</p>
             </InfoCard>
-            <Schedule />
+            <InfoCard>
+                <Schedule />
+            </InfoCard>
             <Button type="primary" size="large" onClick={() => props.updatePath('/book')}>Book Now</Button>
             <Space />
             <Divider />

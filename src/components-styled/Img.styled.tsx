@@ -1,9 +1,5 @@
 import styled from 'styled-components'
 
-
-
-
-//TODO: Switch this size based on screen size
 const StyledImage = styled.img`
 width: 500px;
 max-width: 500px;
@@ -21,8 +17,6 @@ align-items: center;
         max-width: 100%;
         padding: 0;
     }
-
-
 `;
 
 

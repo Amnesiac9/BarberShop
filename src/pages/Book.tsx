@@ -48,12 +48,10 @@ function BookAppointment(props: { remount: () => void }) {
     const booking = React.useRef<FieldType>();
 
 
-
-    // TODO: Store the last date and time values so we can use them in the success page.
     const dateValue = Form.useWatch('date', form)
     const serviceValue = Form.useWatch('service', form);
     const timeValue = Form.useWatch('time', form);
-    const nameValue = Form.useWatch('name', form)
+    // const nameValue = Form.useWatch('name', form)
     //const emailValue = Form.useWatch('email', form)
 
     const now = dayjs();
@@ -153,8 +151,7 @@ function BookAppointment(props: { remount: () => void }) {
 
                 // Generate timeslots, randomly generate booked days (closer to today more likely).
                 // Persist in memory in a map.
-                // These would normally be stored in a db.
-                // TODO: Grab user booked dates from internal storage?
+                // These would normally be stored in a db and fetched.
                 const daysFromToday = dateValue.diff(dayjs(), 'days')
                 const timeslots: TimeSlot[] = [];
                 for (let i = 0; i < 8; ++i) {
@@ -256,7 +253,7 @@ function BookAppointment(props: { remount: () => void }) {
                             )}
                             <Divider />
                             <Form.Item>
-                                <Button disabled={!serviceValue || !dateValue || !timeValue || !nameValue}
+                                <Button //disabled={!serviceValue || !dateValue || !timeValue || !nameValue}
                                     style={{ marginTop: '25px' }}
                                     type='primary'
                                     htmlType="submit"

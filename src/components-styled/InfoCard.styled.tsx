@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const InfoCard = styled.div < { $size?: string, $flexDirection?: string, $noShadow?: boolean, $nowrap?: boolean, $align?: string } >`
+const InfoCard = styled.div < { $size?: string, $flexDirection?: string, $noShadow?: boolean, $wrapForMobile?: boolean, $nowrap?: boolean, $align?: string } >`
     display: flex;
     flex-direction: column;
     margin: 0px auto 25px auto;
@@ -60,13 +60,22 @@ ${(props) => {
     }}
 
 
+${(props) => {
+        if (props.$wrapForMobile) {
+            return css`
+                @media screen and (max-width: 600px) {
+                    flex-wrap: wrap;
+            }
+            `
+        }
+
+    }
+    }
 
 
-
-    @media screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
         padding: 10px;
         max-width: 100%;
-        flex-wrap: wrap;
     }
 
 `
