@@ -36,7 +36,7 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
 
 
 
-function BookAppointment(props: { remount: () => void }) {
+function BookPage(props: { remount: () => void }) {
 
     const [form] = Form.useForm<FieldType>();
     const [showSuccess, setShowSuccess] = React.useState(false);
@@ -186,7 +186,7 @@ function BookAppointment(props: { remount: () => void }) {
 
     return (
         <div>
-            <h2 id='bookapp'>Book Appointment</h2>
+            <h1 id='bookapp'>Book Appointment</h1>
             {!showSuccess && (
                 <div style={{ alignContent: 'center', alignItems: 'center', justifyContent: 'center', justifyItems: 'center', display: 'flex' }}>
                     <div style={{ width: '85%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -241,15 +241,18 @@ function BookAppointment(props: { remount: () => void }) {
                                 rules={[{ type: 'email' }]}>
                                 <Input />
                             </Form.Item>
-                            <Divider />
+
                             {serviceValue && (
-                                <InfoCard $size='large'>
-                                    <p>
-                                        {selectedService?.name}
-                                    </p>
-                                    <p><strong>${selectedService?.price}</strong></p>
-                                    <p>{dateValue?.format('DD/MM/YYYY')} {timeValue ? `@ ${timeValue}` : ''}</p>
-                                </InfoCard>
+                                <>
+                                    <Divider />
+                                    <InfoCard $size='large'>
+                                        <p>
+                                            {selectedService?.name}
+                                        </p>
+                                        <p><strong>${selectedService?.price}</strong></p>
+                                        <p>{dateValue?.format('DD/MM/YYYY')} {timeValue ? `@ ${timeValue}` : ''}</p>
+                                    </InfoCard>
+                                </>
                             )}
                             <Divider />
                             <Form.Item>
@@ -294,4 +297,4 @@ function BookAppointment(props: { remount: () => void }) {
     )
 }
 
-export default BookAppointment
+export default BookPage

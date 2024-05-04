@@ -1,4 +1,7 @@
+
 import styled, { css } from "styled-components";
+
+
 
 const InfoCard = styled.div < { $size?: string, $flexDirection?: string, $noShadow?: boolean, $wrapForMobile?: boolean, $nowrap?: boolean, $align?: string } >`
     display: flex;

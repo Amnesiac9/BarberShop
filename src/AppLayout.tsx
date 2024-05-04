@@ -2,14 +2,14 @@ import React from "react";
 import type { MenuProps } from 'antd';
 import { LinkedinFilled } from '@ant-design/icons';
 import { Button, Layout } from "antd";
-import Homepage from './pages/Home'
+import Homepage from './pages/HomePage'
 import CustomHeader from "./components/CusomHeader";
 import Container from "./components-styled/Container.styled";
 import Menu from './components-styled/Menu.styled'
-import Gallery from "./pages/Gallery";
+import Gallery from "./pages/GalleryPage";
 import Divider from "./components-styled/Divider.styled";
-import BookAppointment from "./pages/Book";
-import AboutPage from "./pages/About";
+import BookPage from "./pages/BookPage";
+import AboutPage from "./pages/AboutPage";
 
 const { Content, Footer } = Layout
 
@@ -80,7 +80,7 @@ function AppLayout(props: { darkMode: boolean; saveDarkMode: (darkMode: boolean)
                     <Container>
                         {path == '/home' && (<Homepage updatePath={clickMenuItem} />)}
                         {path == '/gallery' && (<Gallery />)}
-                        {path == '/book' && (<BookAppointment key={key} remount={remount} />)}
+                        {path == '/book' && (<BookPage key={key} remount={remount} />)}
                         {path == '/about' && (<AboutPage />)}
                     </Container>
                 </Content>

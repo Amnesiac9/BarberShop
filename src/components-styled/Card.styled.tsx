@@ -1,9 +1,22 @@
 import { Card as card } from "antd";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-const Card = styled(card)`
-    width: 25%;
-    margin: 10px;
+const Card = styled(card) < { $size?: string, $noShadow?: boolean, $align?: string, $center?: boolean } >`
+    
+    
+    width: 50%;
+    margin: 15px ${(props) => props.$center ? 'auto' : ''};
+
+
+    ${(props) => {
+        switch (props.$size) {
+            case "small":
+                return css`width: 25%;`
+            case 'large':
+                return css`width: 75%;`
+        }
+    }}
+
 
 
 
@@ -15,7 +28,8 @@ const Card = styled(card)`
 
     @media screen and (max-width: 600px) {
         width: 100%;
-        margin: 15px;
+        max-width: 100%;
+        margin: 15px auto
     }
 `
 

@@ -80,6 +80,7 @@ function App() {
             Carousel: { colorBgContainer: colorsAccent[8] },
             Badge: { colorError: colorsAccent[5] },
             // Select: { optionFontSize: 12 }
+
         }
     }
 

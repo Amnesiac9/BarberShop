@@ -20,6 +20,7 @@ const GlobalStyle = createGlobalStyle`
         background-position: center;
         background-attachment: fixed;
     }
+
     
 `
 

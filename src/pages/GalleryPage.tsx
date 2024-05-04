@@ -66,10 +66,10 @@ function Gallery() {
 
     return (
         <div>
-            <h2>Haircuts Gallery</h2>
+            <h1>Haircuts Gallery</h1>
             <Flex justify='center' wrap='wrap' >
                 {images.slice(firstIndex, lastIndex).map((image, index) => (
-                    <Card key={index} hoverable cover={<Image width={'100%'} src={image.src} alt={image.title} />}>
+                    <Card $size='small' key={index} hoverable cover={<Image width={'100%'} src={image.src} alt={image.title} />}>
                         <Meta description={image.title} />
                     </Card>
                 ))}
