@@ -8,7 +8,7 @@ function Homepage(props: { updatePath: (key: string) => void }) {
 
     return (
         <div >
-            <Carousel >
+            <Carousel autoplay>
                 <ImageCard alt='Barber Shop Image' src='./barberCutting3.png' ><h3>Timeless Haircuts</h3> Affordable Prices</ImageCard>
                 <ImageCard alt='Barber Shop Image' src='./barberCutting2.png' contentSide='right'><h3>'A true barbershop experience.'</h3></ImageCard>
                 <ImageCard alt='Barber Shop Image' src='./barberCutting1.png' ><h3>'Relaxing and Professional Atmosphere.'</h3></ImageCard>
